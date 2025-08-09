@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+
+  minio:
+    image: minio/minio
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    command: server /data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow
+    ports:
+      - "5000:5000"
+
+  fastapi:
+    build:
+      context: .
+      dockerfile: infra/docker/fastapi.Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - mlflow
+
+  prefect:
+    image: prefecthq/prefect:2-latest
+    command: prefect server start
+    ports:
+      - "4200:4200"
