@@ -1,0 +1,5 @@
+boto3==1.40.6
+psycopg[binary]==3.2.3
+langdetect==1.0.9
+PyYAML==6.0.1
+requests==2.31.0

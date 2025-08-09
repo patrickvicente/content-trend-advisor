@@ -1,0 +1,23 @@
+name: "content_trend_advisor"
+version: "1.0.0"
+profile: "content_trend_advisor"   # must match a profile in profiles.yml
+
+# where dbt looks for models, seeds, snapshots, etc.
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+# Optional: generate docs
+vars: {}
+
+# Default configs; you can override per-folder below
+models:
+  content_trend_advisor:
+    +schema: public          # schema in Postgres
+    +materialized: view      # safe default
+    staging:
+      +materialized: view    # staging models as views
+    marts:
+      +materialized: table   # feature tables as physical tables

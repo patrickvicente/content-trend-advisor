@@ -1,0 +1,73 @@
+# Topic Configuration for Content Filtering
+# These define your niche focus areas
+
+# Core topic labels for zero-shot classification
+niche_topics:
+  - "Artificial Intelligence"
+  - "Productivity"
+  - "Notion"
+  - "N8N"
+  - "Workflow Automation"
+  - "AI"
+  - "Machine Learning" 
+  - "Automation"
+  - "Tech Productivity"
+  - "No Code"
+  - "Programming"
+  - "Tech Tools"
+  - "Workflow Optimization"
+  - "Business Technology"
+  - "Startup Technology"
+  - "Tech Tutorials"
+  - "Coding"
+
+# Secondary relevant topics
+secondary_topics:
+  - "Technology Reviews"
+  - "Tech Career"
+  - "Remote Work"
+  - "Digital Tools"
+  - "SaaS"
+  - "API Development"
+  - "Database"
+  - "Infrastructure"
+  - "Software Development"
+  - "Data Science"
+  - "Cloud Computing"
+  - "DevOps"
+
+# Topics to avoid (too broad or off-topic)
+avoid_topics:
+  - "General Entertainment"
+  - "Sports"
+  - "Music"
+  - "Fashion"
+  - "Cooking"
+  - "Travel"
+  - "Pets"
+  - "Gaming" # Unless it's tech-focused gaming
+
+# Minimum confidence threshold for topic classification
+topic_confidence_threshold: 0.3
+
+# Require at least one of these topics to be present
+required_topics:
+  - "N8N"
+  - "Workflow Automation"
+  - "AI"
+  - "Artificial Intelligence"
+  - "Machine Learning" 
+  - "Automation"
+  - "Tech Productivity"
+  - "No Code"
+  - "Programming"
+  - "Tech Tools"
+  - "Workflow Optimization"
+  - "Software Development"
+  - "Cloud Computing"
+  - "Productivity"
+  - "Notion"
+  - "Mental Health"
+  - "ADHD"
+  - "N8N"
+  

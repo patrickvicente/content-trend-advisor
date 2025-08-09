@@ -1,40 +1,127 @@
+version: "3.9"
+
+# Tip: Compose auto-loads .env in this folder. You can also pass --env-file .env
 services:
   postgres:
-    image: postgres:14
+    # Build our custom Postgres image (adds init scripts)
+    build:
+      context: .
+      dockerfile: infra/docker/postgres.Dockerfile
+    container_name: cta_postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT}:5432"              # expose locally
+    volumes:
+      - pg_data:/var/lib/postgresql/data     # persistent PG data
+      # init_db.sql is copied in the Dockerfile; shown here just for clarity
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
 
   minio:
-    image: minio/minio
+    # Build our MinIO image (optionally runs a bucket init script)
+    build:
+      context: .
+      dockerfile: infra/docker/minio.Dockerfile
+    container_name: cta_minio
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
-    command: server /data
+    command: server /data --console-address ":9001"
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "9000:9000"   # S3 API endpoint
+      - "9001:9001"   # Web console
+    volumes:
+      - minio_data:/data
+    restart: unless-stopped
 
   mlflow:
-    image: ghcr.io/mlflow/mlflow
+    # Build our MLflow image so we can tweak CLIs/tools if needed
+    build:
+      context: .
+      dockerfile: infra/docker/mlflow.Dockerfile
+    container_name: cta_mlflow
+    environment:
+      # Tell MLflow to store artifacts in MinIO (S3-compatible)
+      MLFLOW_S3_ENDPOINT_URL: ${MLFLOW_S3_ENDPOINT_URL}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
+    command: >
+      mlflow server
+      --backend-store-uri ${MLFLOW_BACKEND_URI}
+      --default-artifact-root ${MLFLOW_ARTIFACT_URI}
+      --host 0.0.0.0 --port 5000
     ports:
       - "5000:5000"
+    depends_on:
+      - minio
+    restart: unless-stopped
 
-  fastapi:
+  prefect:
+    # Use official Prefect image (no custom Dockerfile needed right now)
+    image: prefecthq/prefect:2-latest
+    container_name: cta_prefect
+    command: prefect server start
+    ports:
+      - "4200:4200"   # Prefect UI
+    restart: unless-stopped
+
+  dbt:
+    # Build a dbt runner image so `dbt run/test` can execute inside container
+    build:
+      context: .
+      dockerfile: infra/docker/dbt.Dockerfile
+    container_name: cta_dbt
+    working_dir: /app/services/transform
+    volumes:
+      - ./:/app       # mount repo so dbt sees your project files
+    environment:
+      DBT_PROFILES_DIR: /app/services/transform
+      # Your dbt profile can read DATABASE_URL or the PG vars below
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  api:
+    # Build our FastAPI app
     build:
       context: .
       dockerfile: infra/docker/fastapi.Dockerfile
+    container_name: cta_api
+    working_dir: /app/services/api
+    volumes:
+      - ./:/app             # live-reload dev; remove in prod
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+      S3_ENDPOINT: ${S3_ENDPOINT}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
+    command: >
+      uvicorn main:app --host 0.0.0.0 --port 8000 --reload
     ports:
       - "8000:8000"
     depends_on:
-      - postgres
-      - mlflow
+      postgres:
+        condition: service_healthy
+      mlflow:
+        condition: service_started
+    restart: unless-stopped
 
-  prefect:
-    image: prefecthq/prefect:2-latest
-    command: prefect server start
-    ports:
-      - "4200:4200"
+volumes:
+  pg_data:
+  minio_data:
