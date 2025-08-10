@@ -35,10 +35,10 @@ def load_env_file():
 # Load .env file when module is imported
 load_env_file()
 
-from services.etl.dbio import get_conn, insert_many_raw_rows, select_recent_external_ids
-from services.etl.filters import filter_content
-from services.etl.s3io import get_default_s3_client
-from services.etl.youtube_client import (
+from .dbio import get_conn, insert_many_raw_rows, select_recent_external_ids
+from .filters import filter_content
+from .s3io import get_default_s3_client
+from .youtube_client import (
     get_most_popular, 
     hydrate_videos, 
     list_channel_upload_ids,
@@ -461,7 +461,8 @@ def run_ingest_pipeline(programs: List[str],
     Returns:
         IngestReport with summary and data
     """
-    # Initialize quota manager and log status
+    # Initialize report and quota manager
+    report = IngestReport()
     quota_manager = get_quota_manager()
     quota_status = check_quota_status()
     
@@ -744,12 +745,34 @@ def main():
         try:
             # Parse the same arguments that would be used for the actual run
             programs = [p.strip() for p in args.programs.split(',')] if args.programs else []
-            keywords = [k.strip() for k in args.keywords.split(',')] if args.keywords else []
+            
+            # Load keywords from YAML config (same logic as main pipeline)
+            keywords = []
+            if "keywords" in programs:
+                try:
+                    with open(args.keywords_file, 'r') as f:
+                        config = yaml.safe_load(f)
+                        keywords = config.get("niche_topics", [])
+                    logger.info(f"Loaded {len(keywords)} keywords from config for quota estimation")
+                except Exception as e:
+                    logger.error(f"Error loading keywords file for quota estimation: {e}")
+                    keywords = ["AI", "automation", "programming"]  # Fallback
+            
+            # Load channel handles from CSV (same logic as main pipeline)
             channel_handles = []
-            if args.channels_file and os.path.exists(args.channels_file):
-                with open(args.channels_file, 'r') as f:
-                    reader = csv.DictReader(f)
-                    channel_handles = [row['channel_handle'] for row in reader if row.get('channel_handle')]
+            if "competitors" in programs:
+                try:
+                    import csv
+                    with open(args.channels_file, 'r', encoding='utf-8') as f:
+                        reader = csv.DictReader(f)
+                        for row in reader:
+                            channel_handle = row.get('channel_handle', '').strip()
+                            if channel_handle:
+                                channel_handles.append(channel_handle)
+                except Exception as e:
+                    logger.error(f"Error loading channels file for quota estimation: {e}")
+                    channel_handles = []
+            
             regions = [r.strip() for r in args.regions.split(',')] if args.regions else []
             
             quota_estimate = estimate_quota_usage(
