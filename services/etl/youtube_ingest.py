@@ -38,7 +38,16 @@ load_env_file()
 from services.etl.dbio import get_conn, insert_many_raw_rows, select_recent_external_ids
 from services.etl.filters import filter_content
 from services.etl.s3io import get_default_s3_client
-from services.etl.youtube_client import get_most_popular, hydrate_videos, list_channel_upload_ids, search_video_ids
+from services.etl.youtube_client import (
+    get_most_popular, 
+    hydrate_videos, 
+    list_channel_upload_ids,
+    list_channel_upload_ids_by_handle,
+    search_video_ids,
+    get_quota_manager,
+    check_quota_status,
+    QuotaExceeded
+)
 
 # Global config cache
 _config_cache = {}
@@ -67,72 +76,87 @@ class IngestReport:
     def summary(self) -> str:
         """Return a formatted summary of the ingestion."""
         return f"""
-YouTube Ingestion Report:
-  📊 Total Fetched: {self.total_fetched}
-  ✅ After Filters: {self.total_after_filters}
-  💾 Inserted: {self.total_inserted}
-  📁 S3 Partition: {self.s3_partition}
-  🔗 Sample Keys: {len(self.sample_keys)}
-  📈 Program Breakdown: {self.program_breakdown}
-  ⏱️  Duration: {(self.end_time - self.start_time).total_seconds():.2f}s
+            YouTube Ingestion Report:
+            📊 Total Fetched: {self.total_fetched}
+            ✅ After Filters: {self.total_after_filters}
+            💾 Inserted: {self.total_inserted}
+            📁 S3 Partition: {self.s3_partition}
+            🔗 Sample Keys: {len(self.sample_keys)}
+            📈 Program Breakdown: {self.program_breakdown}
+            ⏱️  Duration: {(self.end_time - self.start_time).total_seconds():.2f}s
         """.strip()
 
-def run_keywords_program(queries: List[str],
-                        relevance_lang: List[str],
+def run_keywords_program(keywords: List[str], 
+                        relevance_language: List[str],
                         published_after_iso: Optional[str],
                         max_pages: int) -> List[Dict[str, Any]]:
     """
-    Run keywords program to fetch YouTube videos using search queries.
-
+    Run keywords program to search for videos by keyword.
+    
     Args:
-        queries: List of search queries
-        relevance_lang: List of allowed languages for search
-        published_after_iso: ISO timestamp for filtering recent content
-        max_pages: Maximum number of pages to fetch per query/lang combo
-
+        keywords: List of search terms
+        relevance_language: List of allowed languages
+        published_after_iso: ISO date string for filtering
+        max_pages: Maximum pages to fetch per keyword
+    
     Returns:
         List of video dictionaries
     """
-    video_ids = []
-    seen = set()  # Dedupe across search queries
+    videos = []
+    all_video_ids = []
+    seen = set()  # Dedupe across keywords
     
-    for query in queries:
-        for lang in relevance_lang:
-            try:
-                search_ids = search_video_ids(query, lang, published_after_iso, max_pages)
-                if search_ids:
-                    # Deduplicate video IDs
-                    new_ids = [vid_id for vid_id in search_ids if vid_id not in seen]
-                    video_ids.extend(new_ids)
-                    seen.update(new_ids)
-                    logger.info(f"Found {len(new_ids)} new videos for query '{query}' in lang '{lang}'")
-                else:
-                    logger.info(f"No videos found for query: {query} in lang: {lang}")
-            
-            except Exception as e:
-                logger.error(f"Error fetching videos for query '{query}' in lang '{lang}': {e}")
-                continue
-    
-    # Hydrate video IDs to get full video data
-    if video_ids:
+    if not keywords:
+        logger.info("No keywords provided")
+        return videos
+        
+    for keyword in keywords:
         try:
-            logger.info(f"Hydrating {len(video_ids)} unique video IDs")
-            videos = hydrate_videos(video_ids)
-            logger.info(f"Successfully hydrated {len(videos)} videos")
-            return videos
+            logger.info(f"Searching for keyword: {keyword}")
+            video_ids = search_video_ids(
+                query=keyword,
+                relevance_language=relevance_language[0] if relevance_language else None,
+                published_after_iso=published_after_iso,
+                max_pages=max_pages
+            )
+            
+            if video_ids:
+                # Deduplicate video IDs across keywords
+                new_ids = [vid_id for vid_id in video_ids if vid_id not in seen]
+                all_video_ids.extend(new_ids)
+                seen.update(new_ids)
+                logger.info(f"Found {len(new_ids)} new videos for keyword: {keyword}")
+            else:
+                logger.info(f"No videos found for keyword: {keyword}")
+                
+        except QuotaExceeded as e:
+            logger.error(f"🚫 Quota exceeded while searching for keyword '{keyword}': {e}")
+            logger.info("💡 Consider reducing max_pages or waiting for quota reset")
+            break  # Stop processing more keywords if quota is exhausted
         except Exception as e:
-            logger.error(f"Error hydrating videos: {e}")
-            return []
-    else:
-        logger.info("No video IDs to hydrate")
-        return []
+            logger.error(f"Error searching for keyword '{keyword}': {e}")
+            continue
+    
+    # Hydrate all video IDs at once for efficiency
+    if all_video_ids:
+        try:
+            logger.info(f"Hydrating {len(all_video_ids)} videos from keywords")
+            videos = hydrate_videos(all_video_ids)
+            logger.info(f"Successfully hydrated {len(videos)} keyword videos")
+        except QuotaExceeded as e:
+            logger.error(f"🚫 Quota exceeded while hydrating keyword videos: {e}")
+            logger.info("💡 Videos found but couldn't hydrate due to quota limits")
+        except Exception as e:
+            logger.error(f"Error hydrating keyword videos: {e}")
+            
+    return videos
 
-def run_competitors_program(channel_ids: List[str], max_pages: int) -> List[Dict[str, Any]]:
+def run_competitors_program(handles: List[str], max_pages: int) -> List[Dict[str, Any]]:
     """
-    Run competitors program to fetch YouTube videos from specific channels.
+    Run competitors program to fetch YouTube videos from specific channels by handle.
 
     Args:
-        channel_ids: List of channel IDs to monitor
+        handles: List of channel handles (e.g., ['@MrBeast', '@GoogleDevelopers'])
         max_pages: Maximum number of pages to fetch per channel
 
     Returns:
@@ -142,25 +166,30 @@ def run_competitors_program(channel_ids: List[str], max_pages: int) -> List[Dict
     all_video_ids = []
     seen = set()  # Dedupe across channels
     
-    if not channel_ids:
-        logger.info("No channel IDs provided")
+    if not handles:
+        logger.info("No channel handles provided")
         return videos
         
-    for channel_id in channel_ids:
+    for handle in handles:
         try:
-            video_ids = list_channel_upload_ids(channel_id, max_pages)
+            # Use the new handle-based function instead of channel ID
+            video_ids = list_channel_upload_ids_by_handle(handle, max_pages)
             
             if video_ids:
                 # Deduplicate video IDs across channels
                 new_ids = [vid_id for vid_id in video_ids if vid_id not in seen]
                 all_video_ids.extend(new_ids)
                 seen.update(new_ids)
-                logger.info(f"Found {len(new_ids)} new videos from channel: {channel_id}")
+                logger.info(f"Found {len(new_ids)} new videos from channel: {handle}")
             else:
-                logger.info(f"No videos found for channel: {channel_id}")
+                logger.info(f"No videos found for channel: {handle}")
                 
+        except QuotaExceeded as e:
+            logger.error(f"🚫 Quota exceeded while processing {handle}: {e}")
+            logger.info("💡 Consider reducing max_pages or waiting for quota reset")
+            break  # Stop processing more channels if quota is exhausted
         except Exception as e:
-            logger.error(f"Error fetching videos for channel {channel_id}: {e}")
+            logger.error(f"Error fetching videos for channel {handle}: {e}")
             continue
     
     # Hydrate all video IDs at once for efficiency
@@ -169,6 +198,9 @@ def run_competitors_program(channel_ids: List[str], max_pages: int) -> List[Dict
             logger.info(f"Hydrating {len(all_video_ids)} videos from competitors")
             videos = hydrate_videos(all_video_ids)
             logger.info(f"Successfully hydrated {len(videos)} competitor videos")
+        except QuotaExceeded as e:
+            logger.error(f"🚫 Quota exceeded while hydrating videos: {e}")
+            logger.info("💡 Videos found but couldn't hydrate due to quota limits")
         except Exception as e:
             logger.error(f"Error hydrating competitor videos: {e}")
             
@@ -176,12 +208,12 @@ def run_competitors_program(channel_ids: List[str], max_pages: int) -> List[Dict
 
 def run_trending_program(regions: List[str], max_pages: int) -> List[Dict[str, Any]]:
     """
-    Run trending program to fetch YouTube videos from trending feeds.
-
+    Run trending program to fetch most popular videos by region.
+    
     Args:
-        regions: List of region codes (e.g., ['US', 'IN', 'PH'])
-        max_pages: Maximum number of pages to fetch per region
-
+        regions: List of region codes (e.g., ['US', 'GB', 'CA'])
+        max_pages: Maximum pages to fetch per region
+    
     Returns:
         List of video dictionaries
     """
@@ -195,28 +227,31 @@ def run_trending_program(regions: List[str], max_pages: int) -> List[Dict[str, A
         
     for region in regions:
         try:
-            trending_ids = get_most_popular(region, max_pages)
-            if trending_ids:
-                # Deduplicate trending IDs across regions  
-                new_ids = [vid_id for vid_id in trending_ids if vid_id not in seen]
-                all_video_ids.extend(new_ids)
-                seen.update(new_ids)
-                logger.info(f"Found {len(new_ids)} new trending videos from region: {region}")
+            logger.info(f"Fetching trending videos for region: {region}")
+            region_videos = get_most_popular(region, max_pages)
+            
+            if region_videos:
+                # Extract video IDs and deduplicate
+                for video in region_videos:
+                    video_id = extract_video_id(video)
+                    if video_id and video_id not in seen:
+                        seen.add(video_id)
+                        videos.append(video)
+                        all_video_ids.append(video_id)
+                
+                logger.info(f"Found {len(region_videos)} trending videos for region: {region}")
             else:
                 logger.info(f"No trending videos found for region: {region}")
+                
+        except QuotaExceeded as e:
+            logger.error(f"🚫 Quota exceeded while fetching trending for region '{region}': {e}")
+            logger.info("💡 Consider reducing max_pages or waiting for quota reset")
+            break  # Stop processing more regions if quota is exhausted
         except Exception as e:
-            logger.error(f"Error fetching trending videos for region {region}: {e}")
+            logger.error(f"Error fetching trending videos for region '{region}': {e}")
             continue
     
-    # Hydrate all trending video IDs
-    if all_video_ids:
-        try:
-            logger.info(f"Hydrating {len(all_video_ids)} trending videos")
-            videos = hydrate_videos(all_video_ids)
-            logger.info(f"Successfully hydrated {len(videos)} trending videos")
-        except Exception as e:
-            logger.error(f"Error hydrating trending videos: {e}")
-            
+    logger.info(f"Total unique trending videos: {len(videos)}")
     return videos
 
 def apply_relevance_filters(videos: List[Dict[str, Any]],
@@ -402,7 +437,7 @@ Persistence Summary:
     
 def run_ingest_pipeline(programs: List[str],
                         keywords: List[str] = None,
-                        channel_ids: List[str] = None,
+                        channel_handles: List[str] = None,
                         regions: List[str] = None,
                         relevance_lang: List[str] = None,
                         max_pages: int = 2,
@@ -412,45 +447,68 @@ def run_ingest_pipeline(programs: List[str],
     """
     Main orchestration function for YouTube ingestion pipeline.
     
-    Orchestrates:
-      - Run enabled programs (keywords, competitors, trending)
-      - Aggregate and deduplicate results by video_id
-      - Apply relevance filters
-      - Persist to S3 and PostgreSQL
-      - Return comprehensive IngestReport
-      
     Args:
         programs: List of programs to run ['keywords', 'competitors', 'trending']
         keywords: List of search keywords for keywords program
-        channel_ids: List of channel IDs for competitors program
+        channel_handles: List of channel handles for competitors program
         regions: List of region codes for trending program
         relevance_lang: List of allowed languages
-        max_pages: Maximum pages to fetch per program/query
-        published_after_iso: ISO timestamp to filter recent content
-        allowed_categories: List of allowed YouTube categories
-        denied_categories: List of denied YouTube categories
-        
-    Returns:
-        IngestReport with comprehensive statistics
-    """
-    report = IngestReport()
-    report.s3_partition = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        max_pages: Maximum pages to fetch per program
+        published_after_iso: ISO date string for filtering videos
+        allowed_categories: List of allowed video categories
+        denied_categories: List of denied video categories
     
-    # Set defaults
+    Returns:
+        IngestReport with summary and data
+    """
+    # Initialize quota manager and log status
+    quota_manager = get_quota_manager()
+    quota_status = check_quota_status()
+    
+    logger.info("🔋 YouTube API Quota Status:")
+    logger.info(f"   📊 Remaining: {quota_status['remaining']:,} units")
+    logger.info(f"   📈 Used: {quota_status['used']:,} units")
+    logger.info(f"   🎯 Daily Cap: {quota_status['daily_cap']:,} units")
+    logger.info(f"   ⏰ Resets at: {quota_status['will_reset_at']}")
+    
+    # Check if we have enough quota for basic operations
+    if quota_status['remaining'] < 100:
+        logger.warning("⚠️  Low quota remaining! Consider reducing max_pages or waiting for reset.")
+    
+    # Estimate quota usage for this run
+    quota_estimate = estimate_quota_usage(
+        programs=programs,
+        keywords=keywords,
+        channel_handles=channel_handles,
+        regions=regions,
+        max_pages=max_pages
+    )
+    
+    logger.info("📊 Quota Usage Estimate:")
+    logger.info(f"   💰 Total estimated: {quota_estimate['total_estimated']:,} units")
+    logger.info(f"   📋 Recommendation: {quota_estimate['recommendation']}")
+    
+    for program, details in quota_estimate['breakdown'].items():
+        logger.info(f"   🔹 {program}: {details['cost']:,} units ({details['description']})")
+    
+    if not quota_estimate['will_fit']:
+        logger.error(f"❌ Insufficient quota! Need {quota_estimate['total_estimated']:,} but only {quota_estimate['remaining']:,} remaining.")
+        logger.info("💡 Consider reducing max_pages or waiting for quota reset.")
+        return report
+    
     programs = programs or []
     keywords = keywords or []
-    channel_ids = channel_ids or []
-    regions = regions or []
+    channel_handles = channel_handles or []
     relevance_lang = relevance_lang or ["en"]
     
     logger.info(f"""
-Starting YouTube Ingestion Pipeline:
-  🎯 Programs: {programs}
-  🔍 Keywords: {len(keywords)} terms
-  📺 Channels: {len(channel_ids)} channels  
-  🌍 Regions: {regions}
-  🗣️  Languages: {relevance_lang}
-  📄 Max Pages: {max_pages}
+        Starting YouTube Ingestion Pipeline:
+        🎯 Programs: {programs}
+        🔍 Keywords: {len(keywords)} terms
+        📺 Channels: {len(channel_handles)} channels  
+        🌍 Regions: {regions}
+        🗣️ Languages: {relevance_lang}
+        📄 Max Pages: {max_pages}
     """.strip())
     
     # Step 1: Aggregate videos from all enabled programs
@@ -462,8 +520,8 @@ Starting YouTube Ingestion Pipeline:
         if "keywords" in programs and keywords:
             logger.info("🔍 Running keywords program...")
             keyword_videos = run_keywords_program(
-                queries=keywords,
-                relevance_lang=relevance_lang,
+                keywords=keywords,
+                relevance_language=relevance_lang,
                 published_after_iso=published_after_iso,
                 max_pages=max_pages
             )
@@ -477,10 +535,10 @@ Starting YouTube Ingestion Pipeline:
             logger.info(f"Keywords program: {len(new_videos)} unique videos")
         
         # Run Competitors Program  
-        if "competitors" in programs and channel_ids:
+        if "competitors" in programs and channel_handles:
             logger.info("📺 Running competitors program...")
             competitor_videos = run_competitors_program(
-                channel_ids=channel_ids,
+                handles=channel_handles,
                 max_pages=max_pages
             )
             
@@ -540,7 +598,83 @@ Starting YouTube Ingestion Pipeline:
     finally:
         report.finalize()
     
+    # Final quota status summary
+    final_quota_status = check_quota_status()
+    logger.info("🔋 Final Quota Status:")
+    logger.info(f"   📊 Remaining: {final_quota_status['remaining']:,} units")
+    logger.info(f"   📈 Used this run: {quota_status['remaining'] - final_quota_status['remaining']:,} units")
+    logger.info(f"   🎯 Daily Cap: {final_quota_status['daily_cap']:,} units")
+    
+    if final_quota_status['remaining'] < 100:
+        logger.warning("⚠️  Low quota remaining! Consider reducing max_pages for future runs.")
+    
     return report
+
+def estimate_quota_usage(programs: List[str],
+                         keywords: List[str] = None,
+                         channel_handles: List[str] = None,
+                         regions: List[str] = None,
+                         max_pages: int = 2) -> Dict[str, Any]:
+    """
+    Estimate quota usage for the planned pipeline run.
+    
+    Returns:
+        Dict with estimated costs and recommendations
+    """
+    quota_manager = get_quota_manager()
+    total_estimated = 0
+    breakdown = {}
+    
+    if 'keywords' in programs and keywords:
+        # search.list costs 100 units per page
+        cost = len(keywords) * max_pages * 100
+        breakdown['keywords'] = {
+            'cost': cost,
+            'description': f"{len(keywords)} keywords × {max_pages} pages × 100 units"
+        }
+        total_estimated += cost
+    
+    if 'competitors' in programs and channel_handles:
+        # channels.list (1) + playlistItems.list (1) per page per channel
+        cost = len(channel_handles) * (1 + max_pages)
+        breakdown['competitors'] = {
+            'cost': cost,
+            'description': f"{len(channel_handles)} channels × (1 + {max_pages} pages) units"
+        }
+        total_estimated += cost
+    
+    if 'trending' in programs and regions:
+        # videos.list costs 1 unit per page per region
+        cost = len(regions) * max_pages
+        breakdown['trending'] = {
+            'cost': cost,
+            'description': f"{len(regions)} regions × {max_pages} pages × 1 unit"
+        }
+        total_estimated += cost
+    
+    # Hydration costs (1 unit per 50 videos)
+    estimated_videos = 0
+    if 'keywords' in programs and keywords:
+        estimated_videos += len(keywords) * max_pages * 50  # Rough estimate
+    if 'competitors' in programs and channel_handles:
+        estimated_videos += len(channel_handles) * max_pages * 50
+    if 'trending' in programs and regions:
+        estimated_videos += len(regions) * max_pages * 50
+    
+    hydration_cost = max(1, estimated_videos // 50)  # 1 unit per 50 videos
+    breakdown['hydration'] = {
+        'cost': hydration_cost,
+        'description': f"~{estimated_videos} videos ÷ 50 = {hydration_cost} units"
+    }
+    total_estimated += hydration_cost
+    
+    return {
+        'total_estimated': total_estimated,
+        'breakdown': breakdown,
+        'will_fit': quota_manager.remaining() >= total_estimated,
+        'remaining': quota_manager.remaining(),
+        'recommendation': '✅ Safe to run' if quota_manager.remaining() >= total_estimated else '⚠️ Consider reducing max_pages'
+    }
 
 def main():
     """
@@ -557,18 +691,99 @@ def main():
                        help="Comma-separated programs: keywords,competitors,trending")
     parser.add_argument("--keywords-file", default="services/etl/config/topics.yml",
                        help="YAML file with search keywords")
-    parser.add_argument("--channels-file", default="services/etl/config/channels_seed.csv", 
-                       help="CSV file with channel IDs")
-    parser.add_argument("--regions", default="US,IN,PH", 
+    parser.add_argument("--channels-file", 
+                       default='services/etl/config/channels_seed.csv',
+                       help='Path to CSV file containing channel handles')
+    
+    parser.add_argument('--check-quota', 
+                       action='store_true',
+                       help='Check YouTube API quota status and exit')
+    
+    parser.add_argument('--estimate-quota', 
+                       action='store_true',
+                       help='Estimate quota usage for planned run and exit')
+    
+    parser.add_argument("--regions", default="US,IN,PH, AU", 
                        help="Comma-separated region codes")
     parser.add_argument("--relevance-lang", default="en", 
                        help="Comma-separated language codes")
-    parser.add_argument("--max-pages", type=int, default=2,
-                       help="Maximum pages to fetch per program")
+    parser.add_argument("--max-pages", 
+                       type=int, 
+                       default=2,
+                       help='Maximum pages to fetch per program/query (default: 2)')
     parser.add_argument("--published-after", 
                        help="ISO timestamp for recent content filter")
     
     args = parser.parse_args()
+    
+    # Check quota if requested
+    if args.check_quota:
+        try:
+            quota_status = check_quota_status()
+            print("\n🔋 YouTube API Quota Status")
+            print("=" * 50)
+            print(f"📊 Remaining: {quota_status['remaining']:,} units")
+            print(f"📈 Used: {quota_status['used']:,} units")
+            print(f"🎯 Daily Cap: {quota_status['daily_cap']:,} units")
+            print(f"⏰ Resets at: {quota_status['will_reset_at']}")
+            
+            if quota_status['remaining'] < 100:
+                print("\n⚠️  Low quota remaining! Consider reducing max_pages or waiting for reset.")
+            elif quota_status['remaining'] < 1000:
+                print("\n🟡 Moderate quota remaining. Monitor usage carefully.")
+            else:
+                print("\n✅ Plenty of quota remaining for normal operations.")
+                
+            return
+        except Exception as e:
+            print(f"❌ Error checking quota: {e}")
+            return
+    
+    # Estimate quota if requested
+    if args.estimate_quota:
+        try:
+            # Parse the same arguments that would be used for the actual run
+            programs = [p.strip() for p in args.programs.split(',')] if args.programs else []
+            keywords = [k.strip() for k in args.keywords.split(',')] if args.keywords else []
+            channel_handles = []
+            if args.channels_file and os.path.exists(args.channels_file):
+                with open(args.channels_file, 'r') as f:
+                    reader = csv.DictReader(f)
+                    channel_handles = [row['channel_handle'] for row in reader if row.get('channel_handle')]
+            regions = [r.strip() for r in args.regions.split(',')] if args.regions else []
+            
+            quota_estimate = estimate_quota_usage(
+                programs=programs,
+                keywords=keywords,
+                channel_handles=channel_handles,
+                regions=regions,
+                max_pages=args.max_pages
+            )
+            
+            print("\n📊 YouTube API Quota Usage Estimate")
+            print("=" * 50)
+            print(f"💰 Total estimated: {quota_estimate['total_estimated']:,} units")
+            print(f"📋 Recommendation: {quota_estimate['recommendation']}")
+            print(f"🔋 Remaining quota: {quota_estimate['remaining']:,} units")
+            print("\n📋 Breakdown by program:")
+            
+            for program, details in quota_estimate['breakdown'].items():
+                print(f"   🔹 {program}: {details['cost']:,} units")
+                print(f"      {details['description']}")
+            
+            if quota_estimate['will_fit']:
+                print(f"\n✅ Safe to run! You'll have {quota_estimate['remaining'] - quota_estimate['total_estimated']:,} units remaining.")
+            else:
+                print(f"\n⚠️  Insufficient quota! Need {quota_estimate['total_estimated']:,} but only {quota_estimate['remaining']:,} remaining.")
+                print("💡 Consider reducing max_pages or waiting for quota reset.")
+                
+            return
+        except Exception as e:
+            print(f"❌ Error estimating quota: {e}")
+            return
+    
+    # Set up logging
+    logging.basicConfig(level=logging.INFO)
     
     # Parse program list
     programs = [p.strip() for p in args.programs.split(",")]
@@ -587,25 +802,25 @@ def main():
             logger.error(f"Error loading keywords file: {e}")
             keywords = ["AI", "automation", "programming"]  # Fallback
     
-    # Load channel IDs from CSV
-    channel_ids = []
+    # Load channel handles from CSV (updated for handle-based approach)
+    channel_handles = []
     if "competitors" in programs:
         try:
             import csv
             with open(args.channels_file, 'r', encoding='utf-8') as f:
                 reader = csv.DictReader(f)
                 for row in reader:
-                    channel_id = row.get('channel_id', '').strip()
-                    if channel_id:
-                        channel_ids.append(channel_id)
-                        logger.debug(f"Loaded channel: {channel_id} ({row.get('channel_name', 'Unknown')})")
-            logger.info(f"Loaded {len(channel_ids)} channel IDs from {args.channels_file}")
+                    channel_handle = row.get('channel_handle', '').strip()
+                    if channel_handle:
+                        channel_handles.append(channel_handle)
+                        logger.debug(f"Loaded channel: {channel_handle} ({row.get('channel_name', 'Unknown')})")
+            logger.info(f"Loaded {len(channel_handles)} channel handles from {args.channels_file}")
         except FileNotFoundError:
             logger.error(f"Channels file not found: {args.channels_file}")
-            channel_ids = []
+            channel_handles = []
         except Exception as e:
             logger.error(f"Error loading channels file: {e}")
-            channel_ids = []
+            channel_handles = []
     
     # Parse other arguments
     regions = [r.strip() for r in args.regions.split(",")]
@@ -616,7 +831,7 @@ def main():
         report = run_ingest_pipeline(
             programs=programs,
             keywords=keywords,
-            channel_ids=channel_ids,
+            channel_handles=channel_handles,
             regions=regions,
             relevance_lang=relevance_lang,
             max_pages=args.max_pages,
