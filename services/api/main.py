@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 
 app = FastAPI(title="Content Trend Advisor API")
@@ -8,4 +9,8 @@ async def root():
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy"}
+    return {
+        "status": "healthy",
+        "mlflow": os.getenv("MLFLOW_TRACKING_URI"),
+        "db": os.getenv("DATABASE_URL", "")[:40] + "..."}
+        

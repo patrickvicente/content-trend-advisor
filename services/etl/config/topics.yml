@@ -52,6 +52,7 @@ topic_confidence_threshold: 0.3
 
 # Require at least one of these topics to be present
 required_topics:
+  - "Notion"
   - "N8N"
   - "Workflow Automation"
   - "AI"
@@ -66,8 +67,5 @@ required_topics:
   - "Software Development"
   - "Cloud Computing"
   - "Productivity"
-  - "Notion"
-  - "Mental Health"
-  - "ADHD"
-  - "N8N"
+  
   
