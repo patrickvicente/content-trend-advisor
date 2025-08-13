@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: features_content_engagement
+    description: "YouTube content features for analytics/ML"
+    columns:
+      - name: video_id
+        tests: [unique, not_null]
+      - name: engagement_tier
+        tests:
+          - accepted_values:
+              values: ['high','medium','low','very_low']
+      - name: is_trending
+        tests: [not_null]

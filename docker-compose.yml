@@ -94,6 +94,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    command: tail -f /dev/null
 
   api:
     # Build our FastAPI app

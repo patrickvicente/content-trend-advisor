@@ -308,3 +308,69 @@ def filter_content(title: str,
             "topic_count": len(topics)
         }
     }
+
+def filter_youtube_video(video: Dict[str, Any], source: str = "youtube") -> Dict[str, Any]:
+    """
+    Filter a YouTube video object using the complete filtering pipeline.
+    
+    Args:
+        video: YouTube video object from API
+        source: Source identifier (default: "youtube")
+        
+    Returns:
+        Dict with filtering results and metadata
+        
+    Example:
+        result = filter_youtube_video(video_data, "youtube")
+        # Returns: {"is_relevant": True, "language": "en", "topics": [...], ...}
+    """
+    try:
+        # Extract video data
+        snippet = video.get("snippet", {})
+        title = snippet.get("title", "")
+        description = snippet.get("description", "")
+        category_id = snippet.get("categoryId")
+        
+        # Get filtering config
+        config = _load_config("topics")
+        allowed_languages = config.get("allowed_languages", ["en"])
+        allowed_categories = config.get("allowed_categories", [])
+        denied_categories = config.get("denied_categories", [])
+        required_topics = config.get("required_topics", [])
+        
+        # Run filtering pipeline
+        filter_result = filter_content(
+            title=title,
+            description=description,
+            category_id=category_id,
+            allowed_languages=allowed_languages,
+            allowed_categories=allowed_categories,
+            denied_categories=denied_categories
+        )
+        
+        # Add source-specific metadata
+        result = {
+            "is_relevant": filter_result["is_allowed"],
+            "language": filter_result["language"],
+            "category_name": filter_result["category"],
+            "topic_labels": filter_result["topics"],
+            "source": source,
+            "video_id": video.get("id"),
+            "title": title,
+            "filter_metadata": filter_result
+        }
+        
+        return result
+        
+    except Exception as e:
+        logger.error(f"Error filtering YouTube video: {e}")
+        return {
+            "is_relevant": False,
+            "language": "unknown",
+            "category_name": "unknown",
+            "topic_labels": [],
+            "source": source,
+            "video_id": video.get("id"),
+            "title": video.get("snippet", {}).get("title", "unknown"),
+            "error": str(e)
+        }

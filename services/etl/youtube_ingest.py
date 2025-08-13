@@ -36,7 +36,7 @@ def load_env_file():
 load_env_file()
 
 from .dbio import get_conn, insert_many_raw_rows, select_recent_external_ids
-from .filters import filter_content
+from .filters import filter_youtube_video
 from .s3io import get_default_s3_client
 from .youtube_client import (
     get_most_popular, 
@@ -296,30 +296,23 @@ def apply_relevance_filters(videos: List[Dict[str, Any]],
                 continue
             
             # Apply comprehensive filtering using filters.py
-            filter_result = filter_content(
-                title=title,
-                description=description,
-                category_id=category_id,
-                allowed_languages=allowed_languages,
-                allowed_categories=allowed_categories,
-                denied_categories=denied_categories
-            )
+            filter_result = filter_youtube_video(video, "youtube")
             
             # Track filter statistics
-            if not filter_result['language_ok']:
+            if not filter_result.get('filter_metadata', {}).get('language_ok', True):
                 filter_stats['language_filtered'] += 1
-            if not filter_result['category_ok']:
+            if not filter_result.get('filter_metadata', {}).get('category_ok', True):
                 filter_stats['category_filtered'] += 1
-            if not filter_result['topics_ok']:
+            if not filter_result.get('filter_metadata', {}).get('topics_ok', True):
                 filter_stats['topic_filtered'] += 1
                 
             # Only keep videos that pass all filters
-            if filter_result['is_allowed']:
+            if filter_result['is_relevant']:
                 # Add filter metadata to the video for downstream processing
                 video['_filter_metadata'] = {
                     'detected_language': filter_result['language'],
-                    'category_name': filter_result['category'],
-                    'detected_topics': filter_result['topics'],
+                    'category_name': filter_result['category_name'],
+                    'detected_topics': filter_result['topic_labels'],
                     'filtered_at': datetime.now(timezone.utc).isoformat()
                 }
                 filtered_videos.append(video)
@@ -704,7 +697,7 @@ def main():
                        action='store_true',
                        help='Estimate quota usage for planned run and exit')
     
-    parser.add_argument("--regions", default="US,IN,PH, AU", 
+    parser.add_argument("--regions", default="US,IN, AU", 
                        help="Comma-separated region codes")
     parser.add_argument("--relevance-lang", default="en", 
                        help="Comma-separated language codes")

@@ -1,23 +1,29 @@
+# services/transform/dbt_project.yml
 name: "content_trend_advisor"
 version: "1.0.0"
-profile: "content_trend_advisor"   # must match a profile in profiles.yml
+config-version: 2
 
-# where dbt looks for models, seeds, snapshots, etc.
+profile: "content_trend_advisor"
+
 model-paths: ["models"]
+macro-paths: ["macros"]
 seed-paths: ["seeds"]
 test-paths: ["tests"]
-macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
-# Optional: generate docs
-vars: {}
+vars:
+  youtube_raw_table: "raw_content"
+  reddit_raw_table: "raw_content"
 
-# Default configs; you can override per-folder below
 models:
   content_trend_advisor:
-    +schema: public          # schema in Postgres
-    +materialized: view      # safe default
     staging:
-      +materialized: view    # staging models as views
+      +materialized: view
+      +schema: staging
     marts:
-      +materialized: table   # feature tables as physical tables
+      +materialized: table
+      +schema: marts
+
+snapshots:
+  content_trend_advisor:
+    +target_schema: snapshots

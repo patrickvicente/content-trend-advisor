@@ -15,9 +15,9 @@ def insert_raw_row(conn, source, external_id, payload) -> None:
     with conn.cursor() as cur:
         cur.execute(
             """
-            INSERT INTO raw_content (source, external_id, payload)
+            INSERT INTO public.raw_content (source, external_id, payload)
             VALUES (%s, %s, %s)
-            ON CONFLICT DO NOTHING
+            ON CONFLICT (source, external_id) DO NOTHING
             """,
             (source, external_id, json.dumps(payload))
         )
@@ -35,7 +35,7 @@ def insert_many_raw_rows(conn, rows: List[Tuple[str, str, dict]]) -> int:
     with conn.cursor() as cur:
         cur.executemany(
             """
-            INSERT INTO raw_content (source, external_id, payload)
+            INSERT INTO public.raw_content (source, external_id, payload)
             VALUES (%s, %s, %s)
             ON CONFLICT (source, external_id) DO NOTHING
             """,
@@ -65,7 +65,7 @@ def select_recent_external_ids(conn, source: str, since_days: int) -> set[str]:
         cur.execute(
             """
             SELECT external_id
-            FROM raw_content
+            FROM public.raw_content
             WHERE source = %s AND fetched_at >= NOW() - INTERVAL '%s days'
             """,
             (source, since_days)
