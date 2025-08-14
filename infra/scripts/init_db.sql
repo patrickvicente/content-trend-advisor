@@ -16,6 +16,21 @@ CREATE INDEX IF NOT EXISTS idx_raw_content_extid on raw_content (external_id);
 CREATE INDEX IF NOT EXISTS gin_raw_content_payload on raw_content USING GIN (payload);
 
 
+-- Time-series snapshots of lightweight metrics per content item
+CREATE TABLE IF NOT EXISTS raw_metrics_snapshots (
+    id BIGSERIAL PRIMARY KEY,
+    source TEXT NOT NULL,              -- e.g. 'youtube'
+    external_id TEXT NOT NULL,         -- video id
+    fetched_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    view_count BIGINT,
+    like_count BIGINT,
+    comment_count BIGINT
+);
+
+CREATE INDEX IF NOT EXISTS idx_snapshots_source_extid ON raw_metrics_snapshots(source, external_id);
+CREATE INDEX IF NOT EXISTS idx_snapshots_fetched_at ON raw_metrics_snapshots(fetched_at DESC);
+
+
 CREATE TABLE IF NOT EXISTS stg_youtube (
     video_id TEXT PRIMARY KEY,
     title TEXT,

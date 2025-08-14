@@ -69,7 +69,15 @@ clean AS (
       ) }} * 100::numeric
     ), 2) AS engagement_rate,
     DATE_TRUNC('day', fetched_at) AS fetched_date,
-    EXTRACT(DAY FROM (NOW() - (payload->'snippet'->>'publishedAt')::timestamptz)) AS days_since_published
+    EXTRACT(DAY FROM (NOW() - (payload->'snippet'->>'publishedAt')::timestamptz)) AS days_since_published,
+
+    /* Channel enrichment from ETL (if present) */
+    (payload->'_channel_metadata'->>'subscriberCount')::bigint               AS channel_subscriber_count,
+    (payload->'_channel_metadata'->>'hiddenSubscriberCount')::boolean         AS channel_hidden_subscribers,
+    (payload->'_channel_metadata'->>'videoCount')::bigint                     AS channel_video_count,
+
+    /* Trending-source flag (if captured during ingestion) */
+    COALESCE((payload->'_source_flags'->>'youtube_trending')::boolean, false) AS yt_trending_seen
 
   FROM src
 )

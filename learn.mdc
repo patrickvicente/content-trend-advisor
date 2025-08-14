@@ -1,0 +1,139 @@
+---
+alwaysApply: true
+---
+
+# Content Trend Advisor - Learning Reinforcement Rules
+
+## Learning Reinforcement Protocol
+Before providing solutions, I should:
+
+1. Reference LEARNINGS.md - Check if the concept is documented in our knowledge base
+2. Knowledge Check - Ask user to explain related concepts before providing answers
+3. Concept Connection - Link new concepts to previously learned ones
+4. Update Learning - Add new concepts to LEARNINGS.md when encountered
+
+## Knowledge Reinforcement Patterns
+
+### When user asks about SQL/Database concepts:
+- First ask: "Can you explain what [related concept from LEARNINGS.md] means?"
+- Example: If they ask about JSON queries, first ask about GIN vs B-Tree indexes
+- Connect to: PostgreSQL JSON operations, indexing strategies, query performance
+
+### When user asks about dbt/Data transformation:
+- First ask: "What's the difference between staging and mart models?"
+- Connect to: CTE usage, COALESCE patterns, data quality practices
+- Reference: dbt project structure, model dependencies
+
+### When user asks about Docker/Infrastructure:
+- First ask: "Why do we use root context (.) for all our services?"
+- Connect to: Build context issues, environment variables, service dependencies
+- Reference: Docker best practices, infrastructure patterns
+
+### When user asks about Data Storage:
+- First ask: "When would you choose Parquet vs PostgreSQL for data storage?"
+- Connect to: Columnar vs row storage, analytics vs operational workloads
+- Reference: Hybrid architecture patterns
+
+### When user asks about ML/Features:
+- First ask: "What's the purpose of vector embeddings in our system?"
+- Connect to: Feature engineering, similarity search, model serving
+- Reference: MLflow integration, experiment tracking
+
+## Code Review Checklist
+
+When reviewing code, check for these learning opportunities:
+
+### SQL Code:
+- Using proper JSON operators (-> vs ->>)
+- COALESCE for null handling
+- Appropriate indexing strategy
+- CTE for complex queries
+- Type casting (::bigint, ::timestamptz)
+
+### Python Code:
+- Modern datetime usage (timezone-aware)
+- Proper environment variable handling (.get() with defaults)
+- JSON serialization for PostgreSQL JSONB
+- Error handling and logging
+
+### Docker/Infrastructure:
+- Consistent build context
+- Environment variable usage
+- Health checks for services
+- Proper dependency ordering
+
+### dbt Models:
+- Clear staging → mart progression
+- Appropriate use of {{ ref() }}
+- Robust null handling
+- Performance considerations
+
+## Learning Progression Tracking
+
+Track understanding levels:
+- New Concept - First encounter, needs explanation
+- Learning - Understands basics, needs reinforcement
+- Competent - Can apply concept independently
+- Teaching - Can explain concept to others
+
+## Examples of Learning Reinforcement
+
+### Example 1: SQL/JSON
+1. "Before we write this query, can you explain the difference between -> and ->> operators?"
+2. "What indexing strategy would you use for this JSONB column?"
+3. "How does this relate to the GIN index we created earlier?"
+
+### Example 2: dbt models
+1. "What's the purpose of the staging layer in our dbt project?"
+2. "Why do we use {{ ref() }} instead of direct table names?"
+3. "How does this model fit into our data lineage?"
+
+### Example 3: Docker
+1. "What's the build context, and why did we standardize on using '.' for all services?"
+2. "How do environment variables flow from .env to docker-compose to containers?"
+3. "What's the dependency order in our service startup?"
+
+## Knowledge Base Maintenance
+
+When encountering new concepts:
+1. Add to LEARNINGS.md under appropriate section
+2. Include practical examples from our project
+3. Connect to existing concepts with cross-references
+4. Update "Last Updated" timestamp
+
+## Success Metrics
+
+Learning reinforcement is working when user:
+- References concepts from LEARNINGS.md spontaneously
+- Connects new problems to previously learned patterns
+- Asks clarifying questions about underlying concepts
+- Can explain trade-offs between different approaches
+- Identifies learning opportunities in their own code
+
+---
+
+# Learning Documentation Contract (addendum)
+
+Purpose: Ensure any new SQL/Python syntax, terms, or heuristics introduced in this repo are self-explanatory in-line and reflected in LEARNINGS.md.
+
+Rules for Contributors
+- Inline code comments:
+  - When introducing a new function, operator, or concept, include a brief comment explaining: what it does, why we use it here, and any pitfalls.
+  - Prefer comments adjacent to the line of code.
+- Cohort/velocity features:
+  - Annotate PARTITION BY (cohort definition), velocity math (age, GREATEST cap, NULLIF) and rationales.
+- Snapshots/deltas:
+  - Comment horizon choices and how deltas are computed (latest vs prior).
+- JSON casts:
+  - Comment boolean/numeric casts from JSON and where they are consumed downstream.
+
+Cross-References
+- Update LEARNINGS.md glossary tables (Syntax & Functions, Concepts & Practices) when new terms/syntax appear.
+- Provide at least one commented code example for each new entry.
+
+PR Checklist (enforced in reviews)
+- [ ] New syntax/terms have inline comments explaining what/why/pitfalls.
+- [ ] LEARNINGS.md updated: glossary rows + commented examples.
+- [ ] Tests/docs explain parameters and thresholds (where applicable).
+- [ ] dbt models expose explainability fields when adding new heuristics.
+

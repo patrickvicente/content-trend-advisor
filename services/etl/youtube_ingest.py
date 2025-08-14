@@ -46,7 +46,9 @@ from .youtube_client import (
     search_video_ids,
     get_quota_manager,
     check_quota_status,
-    QuotaExceeded
+    QuotaExceeded,
+    attach_channel_stats,
+    extract_video_id
 )
 
 # Global config cache
@@ -142,6 +144,8 @@ def run_keywords_program(keywords: List[str],
         try:
             logger.info(f"Hydrating {len(all_video_ids)} videos from keywords")
             videos = hydrate_videos(all_video_ids)
+            # Enrich with channel stats (subscriberCount, etc.)
+            attach_channel_stats(videos)
             logger.info(f"Successfully hydrated {len(videos)} keyword videos")
         except QuotaExceeded as e:
             logger.error(f"🚫 Quota exceeded while hydrating keyword videos: {e}")
@@ -197,6 +201,7 @@ def run_competitors_program(handles: List[str], max_pages: int) -> List[Dict[str
         try:
             logger.info(f"Hydrating {len(all_video_ids)} videos from competitors")
             videos = hydrate_videos(all_video_ids)
+            attach_channel_stats(videos)
             logger.info(f"Successfully hydrated {len(videos)} competitor videos")
         except QuotaExceeded as e:
             logger.error(f"🚫 Quota exceeded while hydrating videos: {e}")
@@ -551,6 +556,9 @@ def run_ingest_pipeline(programs: List[str],
                 max_pages=max_pages
             )
             
+            # Mark source as 'youtube_trending' for downstream signal
+            for v in trending_videos:
+                v.setdefault('_source_flags', {})['youtube_trending'] = True
             new_videos = [v for v in trending_videos if v.get('id') not in seen_video_ids]
             all_videos.extend(new_videos)
             seen_video_ids.update(v.get('id') for v in new_videos)

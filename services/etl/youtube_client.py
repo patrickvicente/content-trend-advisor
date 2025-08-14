@@ -434,6 +434,81 @@ def hydrate_multiple_channels(handles: List[str], max_pages_per_channel: int = 1
     return results
 
 
+# ---------- channel enrichment for videos ----------
+
+def _fetch_channels_info(channel_ids: List[str]) -> Dict[str, Dict[str, Any]]:
+    """
+    Fetch channel info (snippet, statistics) for a list of channel IDs.
+    Returns a dict mapping channelId -> channel resource.
+    """
+    if not channel_ids:
+        return {}
+
+    unique_ids = list({cid for cid in channel_ids if cid})
+    result: Dict[str, Dict[str, Any]] = {}
+
+    for i in range(0, len(unique_ids), 50):
+        chunk = unique_ids[i:i + 50]
+        params = {
+            "part": "snippet,statistics,contentDetails",
+            "id": ",".join(chunk),
+            "maxResults": 50,
+        }
+        data = _get_with_retry("channels", params)
+        for item in data.get("items", []):
+            cid = item.get("id")
+            if cid:
+                result[cid] = item
+
+    return result
+
+
+def attach_channel_stats(videos: List[Dict[str, Any]]) -> None:
+    """
+    Enrich each video dict with channel statistics under `_channel_metadata`.
+    Adds:
+      - subscriberCount (int, if visible)
+      - videoCount (int)
+      - hiddenSubscriberCount (bool)
+      - channelId (str)
+    Modifies the input list in place. Safe to call with empty list.
+    """
+    if not videos:
+        return
+
+    channel_ids: List[str] = []
+    for v in videos:
+        ch_id = v.get("snippet", {}).get("channelId")
+        if ch_id:
+            channel_ids.append(ch_id)
+
+    info_by_id = _fetch_channels_info(channel_ids)
+
+    for v in videos:
+        ch_id = v.get("snippet", {}).get("channelId")
+        ch = info_by_id.get(ch_id)
+        if not ch:
+            continue
+        stats = ch.get("statistics", {}) or {}
+        subscriber_count_raw = stats.get("subscriberCount")
+        video_count_raw = stats.get("videoCount")
+        hidden_flag = stats.get("hiddenSubscriberCount")
+        try:
+            subscriber_count = int(subscriber_count_raw) if subscriber_count_raw is not None else None
+        except Exception:
+            subscriber_count = None
+        try:
+            video_count = int(video_count_raw) if video_count_raw is not None else None
+        except Exception:
+            video_count = None
+
+        v["_channel_metadata"] = {
+            "channelId": ch_id,
+            "subscriberCount": subscriber_count,
+            "videoCount": video_count,
+            "hiddenSubscriberCount": bool(hidden_flag) if hidden_flag is not None else None,
+        }
+
 # ---------- quota management utilities ----------
 
 def get_quota_manager() -> YoutubeQuotaManager:

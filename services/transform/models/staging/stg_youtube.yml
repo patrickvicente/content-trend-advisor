@@ -35,3 +35,7 @@ models:
       tests:
         - dbt_utils.accepted_range:
             min_value: 0
+    - name: channel_subscriber_count
+      description: "Channel subscriber count at ingestion time, if visible"
+    - name: yt_trending_seen
+      description: "True if video was fetched from YouTube mostPopular during ingestion"

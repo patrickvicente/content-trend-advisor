@@ -12,3 +12,15 @@ models:
               values: ['high','medium','low','very_low']
       - name: is_trending
         tests: [not_null]
+      - name: views_per_hour
+        description: "Velocity feature: views divided by age_hours_capped"
+      - name: age_hours
+        description: "Hours since publish (not capped)"
+      - name: age_bucket
+        description: "Age cohort: 0_24h, 24_72h, 3_7d, 7d_plus"
+      - name: vph_pct_in_category
+        description: "Percentile rank of views_per_hour within category + age_bucket"
+      - name: vph_pct_in_channel
+        description: "Percentile rank of views_per_hour within channel + age_bucket"
+      - name: trending_reason
+        description: "Why the record is (or isn't) trending: velocity_percentile, yt_most_popular, low_engagement, low_total_views"
