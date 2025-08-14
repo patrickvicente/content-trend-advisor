@@ -257,6 +257,14 @@ def run_trending_program(regions: List[str], max_pages: int) -> List[Dict[str, A
             continue
     
     logger.info(f"Total unique trending videos: {len(videos)}")
+
+    # Enrich trending videos with channel stats (subscriberCount, etc.) for parity
+    try:
+        attach_channel_stats(videos)
+        logger.info(f"Enriched {len(videos)} trending videos with channel stats")
+    except Exception as e:
+        logger.error(f"Error enriching trending videos with channel stats: {e}")
+
     return videos
 
 def apply_relevance_filters(videos: List[Dict[str, Any]],
@@ -318,6 +326,8 @@ def apply_relevance_filters(videos: List[Dict[str, Any]],
                     'detected_language': filter_result['language'],
                     'category_name': filter_result['category_name'],
                     'detected_topics': filter_result['topic_labels'],
+                    'default_audio_language': filter_result.get('filter_metadata', {}).get('default_audio_language'),
+                    'audio_language_ok': filter_result.get('filter_metadata', {}).get('audio_language_ok', True),
                     'filtered_at': datetime.now(timezone.utc).isoformat()
                 }
                 filtered_videos.append(video)

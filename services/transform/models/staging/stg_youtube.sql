@@ -23,6 +23,12 @@ clean AS (
     /* Category and language (note: YouTube uses camelCase keys) */
     payload->'snippet'->>'categoryId' AS category_id,
     payload->'snippet'->>'defaultAudioLanguage' AS default_audio_language,
+    CASE
+      WHEN payload->'snippet'->>'defaultAudioLanguage' IS NULL THEN true
+      WHEN lower(payload->'snippet'->>'defaultAudioLanguage') = 'zxx' THEN true
+      WHEN lower(payload->'snippet'->>'defaultAudioLanguage') LIKE 'en%' THEN true
+      ELSE false
+    END AS audio_language_is_english,
 
     /* Core metrics from statistics (->> needs quoted keys) */
     COALESCE((payload->'statistics'->>'viewCount')::bigint, 0) AS view_count,

@@ -330,6 +330,16 @@ def filter_youtube_video(video: Dict[str, Any], source: str = "youtube") -> Dict
         title = snippet.get("title", "")
         description = snippet.get("description", "")
         category_id = snippet.get("categoryId")
+        default_audio_language = snippet.get("defaultAudioLanguage")
+
+        # Determine whether audio language should be considered English
+        def _is_english_audio(lang: Optional[str]) -> bool:
+            if not lang:
+                return True  # treat missing as acceptable
+            lang_lc = str(lang).lower()
+            return lang_lc == "zxx" or lang_lc.startswith("en")
+
+        audio_language_ok = _is_english_audio(default_audio_language)
         
         # Get filtering config
         config = _load_config("topics")
@@ -348,9 +358,12 @@ def filter_youtube_video(video: Dict[str, Any], source: str = "youtube") -> Dict
             denied_categories=denied_categories
         )
         
+        # Enforce strict English-only gate for curated relevance
+        is_relevant = bool(filter_result["is_allowed"]) and audio_language_ok
+
         # Add source-specific metadata
         result = {
-            "is_relevant": filter_result["is_allowed"],
+            "is_relevant": is_relevant,
             "language": filter_result["language"],
             "category_name": filter_result["category"],
             "topic_labels": filter_result["topics"],
@@ -359,6 +372,10 @@ def filter_youtube_video(video: Dict[str, Any], source: str = "youtube") -> Dict
             "title": title,
             "filter_metadata": filter_result
         }
+
+        # Attach audio-language details for lineage
+        result["filter_metadata"]["default_audio_language"] = default_audio_language
+        result["filter_metadata"]["audio_language_ok"] = audio_language_ok
         
         return result
         

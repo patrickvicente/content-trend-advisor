@@ -4716,3 +4716,2081 @@ having count(*) > 1
 [0m09:16:20.598564 [debug] [MainThread]: Command `dbt build` succeeded at 09:16:20.598456 after 1.96 seconds
 [0m09:16:20.599144 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa934cc90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa97a62d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa9937710>]}
 [0m09:16:20.599555 [debug] [MainThread]: Flushing usage events
+[0m12:53:50.599647 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff874d55d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff8c8a9250>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff8753e450>]}
+
+
+============================== 12:53:50.613929 | d65c3715-76d4-4498-92b3-586018a5d468 ==============================
+[0m12:53:50.613929 [info ] [MainThread]: Running with dbt=1.7.8
+[0m12:53:50.614362 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'debug': 'False', 'profiles_dir': '/app/services/transform', 'log_path': '/app/services/transform/logs', 'version_check': 'True', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'introspect': 'True', 'static_parser': 'True', 'invocation_command': 'dbt run -s features_content_engagement --full-refresh', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'send_anonymous_usage_stats': 'True'}
+[0m12:53:50.814257 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'd65c3715-76d4-4498-92b3-586018a5d468', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff872cae10>]}
+[0m12:53:50.872484 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'd65c3715-76d4-4498-92b3-586018a5d468', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff866630d0>]}
+[0m12:53:50.873425 [info ] [MainThread]: Registered adapter: postgres=1.7.8
+[0m12:53:50.891449 [debug] [MainThread]: checksum: 67f0013ca5f0bd43af9a0873dd50792fde83ef69de63b71cacd0b4ac656c52e5, vars: {}, profile: , target: , version: 1.7.8
+[0m12:53:51.113623 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 4 files changed.
+[0m12:53:51.114228 [debug] [MainThread]: Partial parsing: updated file: content_trend_advisor://models/staging/stg_youtube.yml
+[0m12:53:51.114501 [debug] [MainThread]: Partial parsing: updated file: content_trend_advisor://models/marts/youtube_marts.yml
+[0m12:53:51.114708 [debug] [MainThread]: Partial parsing: updated file: content_trend_advisor://models/marts/features_content_engagement.sql
+[0m12:53:51.114885 [debug] [MainThread]: Partial parsing: updated file: content_trend_advisor://models/staging/stg_youtube.sql
+[0m12:53:51.304319 [warn ] [MainThread]: [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 1 unused configuration paths:
+- snapshots.content_trend_advisor
+[0m12:53:51.306913 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'd65c3715-76d4-4498-92b3-586018a5d468', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff861b9890>]}
+[0m12:53:51.347936 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'd65c3715-76d4-4498-92b3-586018a5d468', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff86290d90>]}
+[0m12:53:51.348678 [info ] [MainThread]: Found 13 tests, 2 models, 1 source, 0 exposures, 0 metrics, 530 macros, 0 groups, 0 semantic models
+[0m12:53:51.349058 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'd65c3715-76d4-4498-92b3-586018a5d468', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff87596850>]}
+[0m12:53:51.350308 [info ] [MainThread]: 
+[0m12:53:51.350918 [debug] [MainThread]: Acquiring new postgres connection 'master'
+[0m12:53:51.351837 [debug] [ThreadPool]: Acquiring new postgres connection 'list_contentdb'
+[0m12:53:51.372103 [debug] [ThreadPool]: Using postgres connection "list_contentdb"
+[0m12:53:51.372512 [debug] [ThreadPool]: On list_contentdb: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "list_contentdb"} */
+
+    select distinct nspname from pg_namespace
+  
+[0m12:53:51.372685 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m12:53:51.456922 [debug] [ThreadPool]: SQL status: SELECT 6 in 0.0 seconds
+[0m12:53:51.459923 [debug] [ThreadPool]: On list_contentdb: Close
+[0m12:53:51.468518 [debug] [ThreadPool]: Acquiring new postgres connection 'list_contentdb_public_marts'
+[0m12:53:51.485259 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_marts"
+[0m12:53:51.485697 [debug] [ThreadPool]: On list_contentdb_public_marts: BEGIN
+[0m12:53:51.486010 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m12:53:51.494457 [debug] [ThreadPool]: SQL status: BEGIN in 0.0 seconds
+[0m12:53:51.494892 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_marts"
+[0m12:53:51.495406 [debug] [ThreadPool]: On list_contentdb_public_marts: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "list_contentdb_public_marts"} */
+select
+      'contentdb' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'public_marts'
+    union all
+    select
+      'contentdb' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'public_marts'
+    union all
+    select
+      'contentdb' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'public_marts'
+  
+[0m12:53:51.526974 [debug] [ThreadPool]: SQL status: SELECT 1 in 0.0 seconds
+[0m12:53:51.528448 [debug] [ThreadPool]: On list_contentdb_public_marts: ROLLBACK
+[0m12:53:51.528889 [debug] [ThreadPool]: On list_contentdb_public_marts: Close
+[0m12:53:51.531702 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_contentdb_public_marts, now list_contentdb_public_staging)
+[0m12:53:51.533703 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_staging"
+[0m12:53:51.533873 [debug] [ThreadPool]: On list_contentdb_public_staging: BEGIN
+[0m12:53:51.534018 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m12:53:51.538728 [debug] [ThreadPool]: SQL status: BEGIN in 0.0 seconds
+[0m12:53:51.539004 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_staging"
+[0m12:53:51.539247 [debug] [ThreadPool]: On list_contentdb_public_staging: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "list_contentdb_public_staging"} */
+select
+      'contentdb' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'public_staging'
+    union all
+    select
+      'contentdb' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'public_staging'
+    union all
+    select
+      'contentdb' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'public_staging'
+  
+[0m12:53:51.540468 [debug] [ThreadPool]: SQL status: SELECT 1 in 0.0 seconds
+[0m12:53:51.541076 [debug] [ThreadPool]: On list_contentdb_public_staging: ROLLBACK
+[0m12:53:51.541256 [debug] [ThreadPool]: On list_contentdb_public_staging: Close
+[0m12:53:51.543960 [debug] [MainThread]: Using postgres connection "master"
+[0m12:53:51.544187 [debug] [MainThread]: On master: BEGIN
+[0m12:53:51.544377 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m12:53:51.549614 [debug] [MainThread]: SQL status: BEGIN in 0.0 seconds
+[0m12:53:51.549941 [debug] [MainThread]: Using postgres connection "master"
+[0m12:53:51.550211 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "master"} */
+with relation as (
+        select
+            pg_rewrite.ev_class as class,
+            pg_rewrite.oid as id
+        from pg_rewrite
+    ),
+    class as (
+        select
+            oid as id,
+            relname as name,
+            relnamespace as schema,
+            relkind as kind
+        from pg_class
+    ),
+    dependency as (
+        select distinct
+            pg_depend.objid as id,
+            pg_depend.refobjid as ref
+        from pg_depend
+    ),
+    schema as (
+        select
+            pg_namespace.oid as id,
+            pg_namespace.nspname as name
+        from pg_namespace
+        where nspname != 'information_schema' and nspname not like 'pg\_%'
+    ),
+    referenced as (
+        select
+            relation.id AS id,
+            referenced_class.name ,
+            referenced_class.schema ,
+            referenced_class.kind
+        from relation
+        join class as referenced_class on relation.class=referenced_class.id
+        where referenced_class.kind in ('r', 'v', 'm')
+    ),
+    relationships as (
+        select
+            referenced.name as referenced_name,
+            referenced.schema as referenced_schema_id,
+            dependent_class.name as dependent_name,
+            dependent_class.schema as dependent_schema_id,
+            referenced.kind as kind
+        from referenced
+        join dependency on referenced.id=dependency.id
+        join class as dependent_class on dependency.ref=dependent_class.id
+        where
+            (referenced.name != dependent_class.name or
+             referenced.schema != dependent_class.schema)
+    )
+
+    select
+        referenced_schema.name as referenced_schema,
+        relationships.referenced_name as referenced_name,
+        dependent_schema.name as dependent_schema,
+        relationships.dependent_name as dependent_name
+    from relationships
+    join schema as dependent_schema on relationships.dependent_schema_id=dependent_schema.id
+    join schema as referenced_schema on relationships.referenced_schema_id=referenced_schema.id
+    group by referenced_schema, referenced_name, dependent_schema, dependent_name
+    order by referenced_schema, referenced_name, dependent_schema, dependent_name;
+[0m12:53:51.571354 [debug] [MainThread]: SQL status: SELECT 1 in 0.0 seconds
+[0m12:53:51.572050 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'd65c3715-76d4-4498-92b3-586018a5d468', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff85d138d0>]}
+[0m12:53:51.572373 [debug] [MainThread]: On master: ROLLBACK
+[0m12:53:51.572601 [debug] [MainThread]: Using postgres connection "master"
+[0m12:53:51.572745 [debug] [MainThread]: On master: BEGIN
+[0m12:53:51.572946 [debug] [MainThread]: SQL status: BEGIN in 0.0 seconds
+[0m12:53:51.573123 [debug] [MainThread]: On master: COMMIT
+[0m12:53:51.573304 [debug] [MainThread]: Using postgres connection "master"
+[0m12:53:51.573428 [debug] [MainThread]: On master: COMMIT
+[0m12:53:51.573585 [debug] [MainThread]: SQL status: COMMIT in 0.0 seconds
+[0m12:53:51.573719 [debug] [MainThread]: On master: Close
+[0m12:53:51.574144 [info ] [MainThread]: Concurrency: 1 threads (target='dev')
+[0m12:53:51.574388 [info ] [MainThread]: 
+[0m12:53:51.586247 [debug] [Thread-1 (]: Began running node model.content_trend_advisor.features_content_engagement
+[0m12:53:51.586735 [info ] [Thread-1 (]: 1 of 1 START sql table model public_marts.features_content_engagement .......... [RUN]
+[0m12:53:51.587492 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_contentdb_public_staging, now model.content_trend_advisor.features_content_engagement)
+[0m12:53:51.587856 [debug] [Thread-1 (]: Began compiling node model.content_trend_advisor.features_content_engagement
+[0m12:53:51.603851 [debug] [Thread-1 (]: Writing injected SQL for node "model.content_trend_advisor.features_content_engagement"
+[0m12:53:51.607036 [debug] [Thread-1 (]: Timing info for model.content_trend_advisor.features_content_engagement (compile): 12:53:51.588062 => 12:53:51.606854
+[0m12:53:51.607249 [debug] [Thread-1 (]: Began executing node model.content_trend_advisor.features_content_engagement
+[0m12:53:51.639008 [debug] [Thread-1 (]: Writing runtime sql for node "model.content_trend_advisor.features_content_engagement"
+[0m12:53:51.640456 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m12:53:51.640667 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: BEGIN
+[0m12:53:51.640857 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m12:53:51.648475 [debug] [Thread-1 (]: SQL status: BEGIN in 0.0 seconds
+[0m12:53:51.649159 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m12:53:51.650316 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.features_content_engagement"} */
+
+  
+    
+
+  create  table "contentdb"."public_marts"."features_content_engagement__dbt_tmp"
+  
+  
+    as
+  
+  (
+    with yt as (
+    select * from "contentdb"."public_staging"."stg_youtube"
+),
+
+enriched AS (
+  SELECT
+    video_id,
+    title,
+    description,
+    channel_id,
+    channel_title,
+    published_at,
+    category_id,
+    default_audio_language,
+    tags,
+    topic_categories,
+    detected_topics,
+    detected_language,
+    category_name,
+    view_count,
+    like_count,
+    comment_count,
+    engagement_rate,
+    engagement_ratio_raw,
+    duration_seconds,
+    days_since_published,
+    channel_subscriber_count,
+    yt_trending_seen,
+
+    /* Simple feature engineering */
+    char_length(title)                                        AS title_len,
+    CASE WHEN title ~ '\\d' THEN true ELSE false END           AS title_has_numbers,
+    EXTRACT(HOUR FROM published_at)                           AS hour_of_day,
+    EXTRACT(DOW FROM published_at)                            AS day_of_week,
+
+    CASE
+      WHEN duration_seconds IS NULL THEN 'unknown'
+      WHEN duration_seconds < 60 THEN 'short'
+      WHEN duration_seconds < 300 THEN 'medium'
+      WHEN duration_seconds < 900 THEN 'long'
+      ELSE 'very_long'
+    END                                                       AS content_length_bucket,
+
+    CASE
+      WHEN engagement_ratio_raw >= 0.10 THEN 'high'
+      WHEN engagement_ratio_raw >= 0.05 THEN 'medium'
+      WHEN engagement_ratio_raw >= 0.01 THEN 'low'
+      ELSE 'very_low'
+    END                                                       AS engagement_tier,
+
+    /* Age and velocity */
+    GREATEST(EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0, 0.0)  AS age_hours,
+    GREATEST(EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0, 6.0)  AS age_hours_capped,
+    CASE
+      WHEN EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0 < 24  THEN '0_24h'
+      WHEN EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0 < 72  THEN '24_72h'
+      WHEN EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0 < 168 THEN '3_7d'
+      ELSE '7d_plus'
+    END                                                       AS age_bucket,
+    (view_count::numeric / NULLIF(GREATEST(EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0, 6.0), 0))
+                                                              AS views_per_hour,
+    CASE WHEN channel_subscriber_count IS NOT NULL AND channel_subscriber_count > 0
+         THEN (view_count::numeric / NULLIF(GREATEST(EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0, 6.0), 0))
+              / (channel_subscriber_count / 1000.0)
+         ELSE NULL
+    END                                                       AS views_per_hour_per_1k_subs
+
+  FROM yt
+),
+
+scored AS (
+  SELECT
+    e.*,
+    percent_rank() OVER (PARTITION BY e.category_id, e.age_bucket ORDER BY e.views_per_hour) AS vph_pct_in_category,
+    percent_rank() OVER (PARTITION BY e.channel_id,  e.age_bucket ORDER BY e.views_per_hour) AS vph_pct_in_channel,
+
+    CASE
+      WHEN (
+        (percent_rank() OVER (PARTITION BY e.category_id, e.age_bucket ORDER BY e.views_per_hour) >= 0.90
+         OR percent_rank() OVER (PARTITION BY e.channel_id,  e.age_bucket ORDER BY e.views_per_hour) >= 0.95)
+        AND e.engagement_ratio_raw >= 0.01
+        AND e.views_per_hour >= CASE e.age_bucket
+                                  WHEN '0_24h'  THEN 200
+                                  WHEN '24_72h' THEN 100
+                                  WHEN '3_7d'   THEN 50
+                                  ELSE 25
+                                END
+        AND e.view_count >= 3000
+      ) THEN true ELSE false
+    END                                                       AS is_trending,
+
+    CASE
+      WHEN yt_trending_seen THEN 'yt_most_popular'
+      WHEN engagement_ratio_raw < 0.01 THEN 'low_engagement'
+      WHEN view_count < 3000 THEN 'low_total_views'
+      ELSE 'velocity_percentile'
+    END                                                       AS trending_reason
+  FROM enriched e
+)
+
+SELECT * FROM scored
+  );
+  
+[0m12:53:51.657772 [debug] [Thread-1 (]: Postgres adapter: Postgres error: column "channel_subscriber_count" does not exist
+LINE 38:     channel_subscriber_count,
+             ^
+
+[0m12:53:51.658410 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: ROLLBACK
+[0m12:53:51.660233 [debug] [Thread-1 (]: Timing info for model.content_trend_advisor.features_content_engagement (execute): 12:53:51.607358 => 12:53:51.660047
+[0m12:53:51.660492 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: Close
+[0m12:53:51.670871 [debug] [Thread-1 (]: Database Error in model features_content_engagement (models/marts/features_content_engagement.sql)
+  column "channel_subscriber_count" does not exist
+  LINE 38:     channel_subscriber_count,
+               ^
+  compiled Code at target/run/content_trend_advisor/models/marts/features_content_engagement.sql
+[0m12:53:51.671812 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'd65c3715-76d4-4498-92b3-586018a5d468', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff87596c90>]}
+[0m12:53:51.672321 [error] [Thread-1 (]: 1 of 1 ERROR creating sql table model public_marts.features_content_engagement . [[31mERROR[0m in 0.08s]
+[0m12:53:51.672717 [debug] [Thread-1 (]: Finished running node model.content_trend_advisor.features_content_engagement
+[0m12:53:51.674701 [debug] [MainThread]: Using postgres connection "master"
+[0m12:53:51.674856 [debug] [MainThread]: On master: BEGIN
+[0m12:53:51.674978 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m12:53:51.678520 [debug] [MainThread]: SQL status: BEGIN in 0.0 seconds
+[0m12:53:51.678703 [debug] [MainThread]: On master: COMMIT
+[0m12:53:51.678895 [debug] [MainThread]: Using postgres connection "master"
+[0m12:53:51.679051 [debug] [MainThread]: On master: COMMIT
+[0m12:53:51.679394 [debug] [MainThread]: SQL status: COMMIT in 0.0 seconds
+[0m12:53:51.679569 [debug] [MainThread]: On master: Close
+[0m12:53:51.679924 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m12:53:51.680097 [debug] [MainThread]: Connection 'list_contentdb' was properly closed.
+[0m12:53:51.680259 [debug] [MainThread]: Connection 'model.content_trend_advisor.features_content_engagement' was properly closed.
+[0m12:53:51.681660 [info ] [MainThread]: 
+[0m12:53:51.682138 [info ] [MainThread]: Finished running 1 table model in 0 hours 0 minutes and 0.33 seconds (0.33s).
+[0m12:53:51.683293 [debug] [MainThread]: Command end result
+[0m12:53:51.710927 [info ] [MainThread]: 
+[0m12:53:51.711894 [info ] [MainThread]: [31mCompleted with 1 error and 0 warnings:[0m
+[0m12:53:51.712336 [info ] [MainThread]: 
+[0m12:53:51.712576 [error] [MainThread]:   Database Error in model features_content_engagement (models/marts/features_content_engagement.sql)
+  column "channel_subscriber_count" does not exist
+  LINE 38:     channel_subscriber_count,
+               ^
+  compiled Code at target/run/content_trend_advisor/models/marts/features_content_engagement.sql
+[0m12:53:51.713001 [info ] [MainThread]: 
+[0m12:53:51.713364 [info ] [MainThread]: Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
+[0m12:53:51.719324 [debug] [MainThread]: Resource report: {"command_name": "run", "command_wall_clock_time": 1.1479099, "process_user_time": 1.452839, "process_kernel_time": 2.120414, "process_mem_max_rss": "135440", "process_out_blocks": "4906", "command_success": false, "process_in_blocks": "0"}
+[0m12:53:51.720640 [debug] [MainThread]: Command `dbt run` failed at 12:53:51.720564 after 1.15 seconds
+[0m12:53:51.721145 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff8753ec50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff876f32d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff871195d0>]}
+[0m12:53:51.721390 [debug] [MainThread]: Flushing usage events
+[0m12:55:23.393580 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff967d54d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9647b950>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff964860d0>]}
+
+
+============================== 12:55:23.399171 | c2567fb8-5de9-49bd-b3d9-e0c762719d62 ==============================
+[0m12:55:23.399171 [info ] [MainThread]: Running with dbt=1.7.8
+[0m12:55:23.399579 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'version_check': 'True', 'debug': 'False', 'log_path': '/app/services/transform/logs', 'profiles_dir': '/app/services/transform', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'invocation_command': 'dbt run -s stg_youtube --full-refresh', 'introspect': 'True', 'target_path': 'None', 'log_format': 'default', 'send_anonymous_usage_stats': 'True'}
+[0m12:55:23.526844 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'c2567fb8-5de9-49bd-b3d9-e0c762719d62', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff964d2e10>]}
+[0m12:55:23.581352 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'c2567fb8-5de9-49bd-b3d9-e0c762719d62', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff95678350>]}
+[0m12:55:23.582887 [info ] [MainThread]: Registered adapter: postgres=1.7.8
+[0m12:55:23.598778 [debug] [MainThread]: checksum: 67f0013ca5f0bd43af9a0873dd50792fde83ef69de63b71cacd0b4ac656c52e5, vars: {}, profile: , target: , version: 1.7.8
+[0m12:55:23.730678 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m12:55:23.730961 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m12:55:23.731349 [warn ] [MainThread]: [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 1 unused configuration paths:
+- snapshots.content_trend_advisor
+[0m12:55:23.737791 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'c2567fb8-5de9-49bd-b3d9-e0c762719d62', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff96193f10>]}
+[0m12:55:23.748623 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'c2567fb8-5de9-49bd-b3d9-e0c762719d62', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff956e1b50>]}
+[0m12:55:23.748912 [info ] [MainThread]: Found 13 tests, 2 models, 1 source, 0 exposures, 0 metrics, 530 macros, 0 groups, 0 semantic models
+[0m12:55:23.749199 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'c2567fb8-5de9-49bd-b3d9-e0c762719d62', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9565c150>]}
+[0m12:55:23.750411 [info ] [MainThread]: 
+[0m12:55:23.750940 [debug] [MainThread]: Acquiring new postgres connection 'master'
+[0m12:55:23.751923 [debug] [ThreadPool]: Acquiring new postgres connection 'list_contentdb'
+[0m12:55:23.759904 [debug] [ThreadPool]: Using postgres connection "list_contentdb"
+[0m12:55:23.760275 [debug] [ThreadPool]: On list_contentdb: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "list_contentdb"} */
+
+    select distinct nspname from pg_namespace
+  
+[0m12:55:23.760430 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m12:55:23.804095 [debug] [ThreadPool]: SQL status: SELECT 6 in 0.0 seconds
+[0m12:55:23.805177 [debug] [ThreadPool]: On list_contentdb: Close
+[0m12:55:23.806804 [debug] [ThreadPool]: Acquiring new postgres connection 'list_contentdb_public_marts'
+[0m12:55:23.809929 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_marts"
+[0m12:55:23.810087 [debug] [ThreadPool]: On list_contentdb_public_marts: BEGIN
+[0m12:55:23.810206 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m12:55:23.818684 [debug] [ThreadPool]: SQL status: BEGIN in 0.0 seconds
+[0m12:55:23.819115 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_marts"
+[0m12:55:23.819343 [debug] [ThreadPool]: On list_contentdb_public_marts: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "list_contentdb_public_marts"} */
+select
+      'contentdb' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'public_marts'
+    union all
+    select
+      'contentdb' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'public_marts'
+    union all
+    select
+      'contentdb' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'public_marts'
+  
+[0m12:55:23.832586 [debug] [ThreadPool]: SQL status: SELECT 1 in 0.0 seconds
+[0m12:55:23.833740 [debug] [ThreadPool]: On list_contentdb_public_marts: ROLLBACK
+[0m12:55:23.834019 [debug] [ThreadPool]: On list_contentdb_public_marts: Close
+[0m12:55:23.834759 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_contentdb_public_marts, now list_contentdb_public_staging)
+[0m12:55:23.837290 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_staging"
+[0m12:55:23.837552 [debug] [ThreadPool]: On list_contentdb_public_staging: BEGIN
+[0m12:55:23.837721 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m12:55:23.849663 [debug] [ThreadPool]: SQL status: BEGIN in 0.0 seconds
+[0m12:55:23.850154 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_staging"
+[0m12:55:23.850403 [debug] [ThreadPool]: On list_contentdb_public_staging: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "list_contentdb_public_staging"} */
+select
+      'contentdb' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'public_staging'
+    union all
+    select
+      'contentdb' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'public_staging'
+    union all
+    select
+      'contentdb' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'public_staging'
+  
+[0m12:55:23.857974 [debug] [ThreadPool]: SQL status: SELECT 1 in 0.0 seconds
+[0m12:55:23.858711 [debug] [ThreadPool]: On list_contentdb_public_staging: ROLLBACK
+[0m12:55:23.858929 [debug] [ThreadPool]: On list_contentdb_public_staging: Close
+[0m12:55:23.861508 [debug] [MainThread]: Using postgres connection "master"
+[0m12:55:23.861748 [debug] [MainThread]: On master: BEGIN
+[0m12:55:23.861879 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m12:55:23.874195 [debug] [MainThread]: SQL status: BEGIN in 0.0 seconds
+[0m12:55:23.874664 [debug] [MainThread]: Using postgres connection "master"
+[0m12:55:23.874957 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "master"} */
+with relation as (
+        select
+            pg_rewrite.ev_class as class,
+            pg_rewrite.oid as id
+        from pg_rewrite
+    ),
+    class as (
+        select
+            oid as id,
+            relname as name,
+            relnamespace as schema,
+            relkind as kind
+        from pg_class
+    ),
+    dependency as (
+        select distinct
+            pg_depend.objid as id,
+            pg_depend.refobjid as ref
+        from pg_depend
+    ),
+    schema as (
+        select
+            pg_namespace.oid as id,
+            pg_namespace.nspname as name
+        from pg_namespace
+        where nspname != 'information_schema' and nspname not like 'pg\_%'
+    ),
+    referenced as (
+        select
+            relation.id AS id,
+            referenced_class.name ,
+            referenced_class.schema ,
+            referenced_class.kind
+        from relation
+        join class as referenced_class on relation.class=referenced_class.id
+        where referenced_class.kind in ('r', 'v', 'm')
+    ),
+    relationships as (
+        select
+            referenced.name as referenced_name,
+            referenced.schema as referenced_schema_id,
+            dependent_class.name as dependent_name,
+            dependent_class.schema as dependent_schema_id,
+            referenced.kind as kind
+        from referenced
+        join dependency on referenced.id=dependency.id
+        join class as dependent_class on dependency.ref=dependent_class.id
+        where
+            (referenced.name != dependent_class.name or
+             referenced.schema != dependent_class.schema)
+    )
+
+    select
+        referenced_schema.name as referenced_schema,
+        relationships.referenced_name as referenced_name,
+        dependent_schema.name as dependent_schema,
+        relationships.dependent_name as dependent_name
+    from relationships
+    join schema as dependent_schema on relationships.dependent_schema_id=dependent_schema.id
+    join schema as referenced_schema on relationships.referenced_schema_id=referenced_schema.id
+    group by referenced_schema, referenced_name, dependent_schema, dependent_name
+    order by referenced_schema, referenced_name, dependent_schema, dependent_name;
+[0m12:55:23.887255 [debug] [MainThread]: SQL status: SELECT 1 in 0.0 seconds
+[0m12:55:23.888060 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'c2567fb8-5de9-49bd-b3d9-e0c762719d62', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff956a2450>]}
+[0m12:55:23.888424 [debug] [MainThread]: On master: ROLLBACK
+[0m12:55:23.888661 [debug] [MainThread]: Using postgres connection "master"
+[0m12:55:23.888805 [debug] [MainThread]: On master: BEGIN
+[0m12:55:23.889057 [debug] [MainThread]: SQL status: BEGIN in 0.0 seconds
+[0m12:55:23.889269 [debug] [MainThread]: On master: COMMIT
+[0m12:55:23.889464 [debug] [MainThread]: Using postgres connection "master"
+[0m12:55:23.889725 [debug] [MainThread]: On master: COMMIT
+[0m12:55:23.889956 [debug] [MainThread]: SQL status: COMMIT in 0.0 seconds
+[0m12:55:23.890145 [debug] [MainThread]: On master: Close
+[0m12:55:23.890789 [info ] [MainThread]: Concurrency: 1 threads (target='dev')
+[0m12:55:23.891243 [info ] [MainThread]: 
+[0m12:55:23.900208 [debug] [Thread-1 (]: Began running node model.content_trend_advisor.stg_youtube
+[0m12:55:23.900643 [info ] [Thread-1 (]: 1 of 1 START sql view model public_staging.stg_youtube ......................... [RUN]
+[0m12:55:23.901181 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_contentdb_public_staging, now model.content_trend_advisor.stg_youtube)
+[0m12:55:23.901402 [debug] [Thread-1 (]: Began compiling node model.content_trend_advisor.stg_youtube
+[0m12:55:23.910659 [debug] [Thread-1 (]: Writing injected SQL for node "model.content_trend_advisor.stg_youtube"
+[0m12:55:23.917702 [debug] [Thread-1 (]: Timing info for model.content_trend_advisor.stg_youtube (compile): 12:55:23.901578 => 12:55:23.915448
+[0m12:55:23.921207 [debug] [Thread-1 (]: Began executing node model.content_trend_advisor.stg_youtube
+[0m12:55:23.976147 [debug] [Thread-1 (]: Writing runtime sql for node "model.content_trend_advisor.stg_youtube"
+[0m12:55:23.978581 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.stg_youtube"
+[0m12:55:23.979143 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: BEGIN
+[0m12:55:23.979691 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m12:55:23.988727 [debug] [Thread-1 (]: SQL status: BEGIN in 0.0 seconds
+[0m12:55:23.990557 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.stg_youtube"
+[0m12:55:23.991168 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.stg_youtube"} */
+
+  create view "contentdb"."public_staging"."stg_youtube__dbt_tmp"
+    
+    
+  as (
+    WITH src AS (
+  SELECT 
+    external_id AS video_id,
+    fetched_at,
+    payload
+  FROM "contentdb"."public"."raw_content"
+  WHERE source = 'youtube'
+), 
+
+clean AS (
+  SELECT
+    video_id,
+
+    /* Titles and descriptions: prefer localized when present */
+    COALESCE(payload->'snippet'->'localized'->>'title', payload->'snippet'->>'title') AS title,
+    LEFT(COALESCE(payload->'snippet'->'localized'->>'description', payload->'snippet'->>'description', ''), 1000) AS description,
+
+    /* Channel and timing info */
+    payload->'snippet'->>'channelId' AS channel_id,
+    payload->'snippet'->>'channelTitle' AS channel_title,
+    (payload->'snippet'->>'publishedAt')::timestamptz AS published_at,
+
+    /* Category and language (note: YouTube uses camelCase keys) */
+    payload->'snippet'->>'categoryId' AS category_id,
+    payload->'snippet'->>'defaultAudioLanguage' AS default_audio_language,
+    CASE
+      WHEN payload->'snippet'->>'defaultAudioLanguage' IS NULL THEN true
+      WHEN lower(payload->'snippet'->>'defaultAudioLanguage') = 'zxx' THEN true
+      WHEN lower(payload->'snippet'->>'defaultAudioLanguage') LIKE 'en%' THEN true
+      ELSE false
+    END AS audio_language_is_english,
+
+    /* Core metrics from statistics (->> needs quoted keys) */
+    COALESCE((payload->'statistics'->>'viewCount')::bigint, 0) AS view_count,
+    COALESCE((payload->'statistics'->>'likeCount')::bigint, 0) AS like_count,
+    COALESCE((payload->'statistics'->>'commentCount')::bigint, 0) AS comment_count,
+
+    /* Duration as seconds from ISO8601 duration */
+    CASE
+      WHEN payload->'contentDetails'->>'duration' IS NOT NULL
+        THEN 
+  (
+    COALESCE( (regexp_match((payload->'contentDetails'->>'duration'), 'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?'))[1], '0')::int * 3600
+  + COALESCE( (regexp_match((payload->'contentDetails'->>'duration'), 'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?'))[2], '0')::int * 60
+  + COALESCE( (regexp_match((payload->'contentDetails'->>'duration'), 'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?'))[3], '0')::int
+  )
+
+      ELSE NULL
+    END AS duration_seconds,
+
+    /* Tags, topics, categories */
+    
+  COALESCE(
+    ARRAY(
+      SELECT jsonb_array_elements_text(payload->'snippet'->'tags')
+    ),
+    ARRAY[]::text[]
+  )
+ AS tags,
+
+    /* _filter_metadata.detected_topics is an array; use -> (JSONB) not ->> (text) */
+    COALESCE(
+      ARRAY(SELECT jsonb_array_elements_text(payload->'_filter_metadata'->'detected_topics')),
+      ARRAY[]::text[]
+    ) AS detected_topics,
+
+    payload->'_filter_metadata'->>'detected_language' AS detected_language,
+    payload->'_filter_metadata'->>'category_name' AS category_name,
+
+    /* topicDetails.topicCategories is an array of URLs */
+    COALESCE(
+      ARRAY(SELECT jsonb_array_elements_text(payload->'topicDetails'->'topicCategories')),
+      ARRAY[]::text[]
+    ) AS topic_categories,
+
+    /* Derived metrics */
+    
+  CASE
+    WHEN (COALESCE((payload->'statistics'->>'viewCount')::bigint, 0))::numeric > 0
+      THEN ((COALESCE(COALESCE((payload->'statistics'->>'likeCount')::bigint, 0), 0))::numeric + (COALESCE(COALESCE((payload->'statistics'->>'commentCount')::bigint, 0), 0))::numeric) / (COALESCE((payload->'statistics'->>'viewCount')::bigint, 0))::numeric
+    ELSE 0::numeric
+  END
+ AS engagement_ratio_raw,
+    /* Keep a percentage for readability, but derived from the raw ratio */
+    ROUND((
+      
+  CASE
+    WHEN (COALESCE((payload->'statistics'->>'viewCount')::bigint, 0))::numeric > 0
+      THEN ((COALESCE(COALESCE((payload->'statistics'->>'likeCount')::bigint, 0), 0))::numeric + (COALESCE(COALESCE((payload->'statistics'->>'commentCount')::bigint, 0), 0))::numeric) / (COALESCE((payload->'statistics'->>'viewCount')::bigint, 0))::numeric
+    ELSE 0::numeric
+  END
+ * 100::numeric
+    ), 2) AS engagement_rate,
+    DATE_TRUNC('day', fetched_at) AS fetched_date,
+    EXTRACT(DAY FROM (NOW() - (payload->'snippet'->>'publishedAt')::timestamptz)) AS days_since_published,
+
+    /* Channel enrichment from ETL (if present) */
+    (payload->'_channel_metadata'->>'subscriberCount')::bigint               AS channel_subscriber_count,
+    (payload->'_channel_metadata'->>'hiddenSubscriberCount')::boolean         AS channel_hidden_subscribers,
+    (payload->'_channel_metadata'->>'videoCount')::bigint                     AS channel_video_count,
+
+    /* Trending-source flag (if captured during ingestion) */
+    COALESCE((payload->'_source_flags'->>'youtube_trending')::boolean, false) AS yt_trending_seen
+
+  FROM src
+)
+
+SELECT * FROM clean
+  );
+[0m12:55:24.072996 [debug] [Thread-1 (]: SQL status: CREATE VIEW in 0.0 seconds
+[0m12:55:24.077076 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.stg_youtube"
+[0m12:55:24.077434 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.stg_youtube"} */
+alter table "contentdb"."public_staging"."stg_youtube" rename to "stg_youtube__dbt_backup"
+[0m12:55:24.081106 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.0 seconds
+[0m12:55:24.082504 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.stg_youtube"
+[0m12:55:24.082664 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.stg_youtube"} */
+alter table "contentdb"."public_staging"."stg_youtube__dbt_tmp" rename to "stg_youtube"
+[0m12:55:24.083779 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.0 seconds
+[0m12:55:24.091042 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: COMMIT
+[0m12:55:24.091249 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.stg_youtube"
+[0m12:55:24.091463 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: COMMIT
+[0m12:55:24.104192 [debug] [Thread-1 (]: SQL status: COMMIT in 0.0 seconds
+[0m12:55:24.106678 [debug] [Thread-1 (]: Applying DROP to: "contentdb"."public_staging"."stg_youtube__dbt_backup"
+[0m12:55:24.108916 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.stg_youtube"
+[0m12:55:24.109106 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.stg_youtube"} */
+drop view if exists "contentdb"."public_staging"."stg_youtube__dbt_backup" cascade
+[0m12:55:24.120182 [debug] [Thread-1 (]: SQL status: DROP VIEW in 0.0 seconds
+[0m12:55:24.121247 [debug] [Thread-1 (]: Timing info for model.content_trend_advisor.stg_youtube (execute): 12:55:23.922969 => 12:55:24.121115
+[0m12:55:24.121464 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: Close
+[0m12:55:24.122124 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'c2567fb8-5de9-49bd-b3d9-e0c762719d62', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff955eb0d0>]}
+[0m12:55:24.122552 [info ] [Thread-1 (]: 1 of 1 OK created sql view model public_staging.stg_youtube .................... [[32mCREATE VIEW[0m in 0.22s]
+[0m12:55:24.122921 [debug] [Thread-1 (]: Finished running node model.content_trend_advisor.stg_youtube
+[0m12:55:24.124359 [debug] [MainThread]: Using postgres connection "master"
+[0m12:55:24.124584 [debug] [MainThread]: On master: BEGIN
+[0m12:55:24.124708 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m12:55:24.128076 [debug] [MainThread]: SQL status: BEGIN in 0.0 seconds
+[0m12:55:24.128305 [debug] [MainThread]: On master: COMMIT
+[0m12:55:24.128483 [debug] [MainThread]: Using postgres connection "master"
+[0m12:55:24.128652 [debug] [MainThread]: On master: COMMIT
+[0m12:55:24.129049 [debug] [MainThread]: SQL status: COMMIT in 0.0 seconds
+[0m12:55:24.129213 [debug] [MainThread]: On master: Close
+[0m12:55:24.129545 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m12:55:24.129672 [debug] [MainThread]: Connection 'list_contentdb' was properly closed.
+[0m12:55:24.129781 [debug] [MainThread]: Connection 'model.content_trend_advisor.stg_youtube' was properly closed.
+[0m12:55:24.129960 [info ] [MainThread]: 
+[0m12:55:24.130162 [info ] [MainThread]: Finished running 1 view model in 0 hours 0 minutes and 0.38 seconds (0.38s).
+[0m12:55:24.130627 [debug] [MainThread]: Command end result
+[0m12:55:24.145892 [info ] [MainThread]: 
+[0m12:55:24.146261 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m12:55:24.146559 [info ] [MainThread]: 
+[0m12:55:24.146808 [info ] [MainThread]: Done. PASS=1 WARN=0 ERROR=0 SKIP=0 TOTAL=1
+[0m12:55:24.148139 [debug] [MainThread]: Resource report: {"command_name": "run", "command_success": true, "command_wall_clock_time": 0.7862271, "process_user_time": 1.519191, "process_kernel_time": 1.086155, "process_mem_max_rss": "130464", "process_out_blocks": "3783", "process_in_blocks": "0"}
+[0m12:55:24.148515 [debug] [MainThread]: Command `dbt run` succeeded at 12:55:24.148466 after 0.79 seconds
+[0m12:55:24.148914 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff969291d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff96486790>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9693f110>]}
+[0m12:55:24.149100 [debug] [MainThread]: Flushing usage events
+[0m12:55:36.329481 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff8feff0d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff900efb90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff900cd610>]}
+
+
+============================== 12:55:36.334273 | 9fd2d007-2a12-4876-9e9e-e1fe0c88900e ==============================
+[0m12:55:36.334273 [info ] [MainThread]: Running with dbt=1.7.8
+[0m12:55:36.334691 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'fail_fast': 'False', 'debug': 'False', 'log_path': '/app/services/transform/logs', 'profiles_dir': '/app/services/transform', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'introspect': 'True', 'static_parser': 'True', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'target_path': 'None', 'invocation_command': 'dbt run -s features_content_engagement --full-refresh', 'send_anonymous_usage_stats': 'True'}
+[0m12:55:36.424042 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '9fd2d007-2a12-4876-9e9e-e1fe0c88900e', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff8f9640d0>]}
+[0m12:55:36.477960 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '9fd2d007-2a12-4876-9e9e-e1fe0c88900e', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff8ff97f50>]}
+[0m12:55:36.479463 [info ] [MainThread]: Registered adapter: postgres=1.7.8
+[0m12:55:36.495066 [debug] [MainThread]: checksum: 67f0013ca5f0bd43af9a0873dd50792fde83ef69de63b71cacd0b4ac656c52e5, vars: {}, profile: , target: , version: 1.7.8
+[0m12:55:36.591205 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m12:55:36.591537 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m12:55:36.591931 [warn ] [MainThread]: [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 1 unused configuration paths:
+- snapshots.content_trend_advisor
+[0m12:55:36.595184 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '9fd2d007-2a12-4876-9e9e-e1fe0c88900e', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff900ce510>]}
+[0m12:55:36.607164 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '9fd2d007-2a12-4876-9e9e-e1fe0c88900e', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff8ff10cd0>]}
+[0m12:55:36.607464 [info ] [MainThread]: Found 13 tests, 2 models, 1 source, 0 exposures, 0 metrics, 530 macros, 0 groups, 0 semantic models
+[0m12:55:36.607667 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '9fd2d007-2a12-4876-9e9e-e1fe0c88900e', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff8fd9ffd0>]}
+[0m12:55:36.608547 [info ] [MainThread]: 
+[0m12:55:36.609005 [debug] [MainThread]: Acquiring new postgres connection 'master'
+[0m12:55:36.609885 [debug] [ThreadPool]: Acquiring new postgres connection 'list_contentdb'
+[0m12:55:36.618066 [debug] [ThreadPool]: Using postgres connection "list_contentdb"
+[0m12:55:36.619085 [debug] [ThreadPool]: On list_contentdb: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "list_contentdb"} */
+
+    select distinct nspname from pg_namespace
+  
+[0m12:55:36.619448 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m12:55:36.646139 [debug] [ThreadPool]: SQL status: SELECT 6 in 0.0 seconds
+[0m12:55:36.647094 [debug] [ThreadPool]: On list_contentdb: Close
+[0m12:55:36.649487 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_contentdb, now list_contentdb_public_marts)
+[0m12:55:36.656653 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_marts"
+[0m12:55:36.657005 [debug] [ThreadPool]: On list_contentdb_public_marts: BEGIN
+[0m12:55:36.657188 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m12:55:36.662844 [debug] [ThreadPool]: SQL status: BEGIN in 0.0 seconds
+[0m12:55:36.663243 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_marts"
+[0m12:55:36.663503 [debug] [ThreadPool]: On list_contentdb_public_marts: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "list_contentdb_public_marts"} */
+select
+      'contentdb' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'public_marts'
+    union all
+    select
+      'contentdb' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'public_marts'
+    union all
+    select
+      'contentdb' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'public_marts'
+  
+[0m12:55:36.670149 [debug] [ThreadPool]: SQL status: SELECT 1 in 0.0 seconds
+[0m12:55:36.671206 [debug] [ThreadPool]: On list_contentdb_public_marts: ROLLBACK
+[0m12:55:36.671479 [debug] [ThreadPool]: On list_contentdb_public_marts: Close
+[0m12:55:36.672043 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_contentdb_public_marts, now list_contentdb_public_staging)
+[0m12:55:36.673399 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_staging"
+[0m12:55:36.673656 [debug] [ThreadPool]: On list_contentdb_public_staging: BEGIN
+[0m12:55:36.673788 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m12:55:36.679483 [debug] [ThreadPool]: SQL status: BEGIN in 0.0 seconds
+[0m12:55:36.679893 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_staging"
+[0m12:55:36.680247 [debug] [ThreadPool]: On list_contentdb_public_staging: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "list_contentdb_public_staging"} */
+select
+      'contentdb' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'public_staging'
+    union all
+    select
+      'contentdb' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'public_staging'
+    union all
+    select
+      'contentdb' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'public_staging'
+  
+[0m12:55:36.690751 [debug] [ThreadPool]: SQL status: SELECT 1 in 0.0 seconds
+[0m12:55:36.691685 [debug] [ThreadPool]: On list_contentdb_public_staging: ROLLBACK
+[0m12:55:36.691919 [debug] [ThreadPool]: On list_contentdb_public_staging: Close
+[0m12:55:36.696305 [debug] [MainThread]: Using postgres connection "master"
+[0m12:55:36.696742 [debug] [MainThread]: On master: BEGIN
+[0m12:55:36.696913 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m12:55:36.704464 [debug] [MainThread]: SQL status: BEGIN in 0.0 seconds
+[0m12:55:36.704847 [debug] [MainThread]: Using postgres connection "master"
+[0m12:55:36.705315 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "master"} */
+with relation as (
+        select
+            pg_rewrite.ev_class as class,
+            pg_rewrite.oid as id
+        from pg_rewrite
+    ),
+    class as (
+        select
+            oid as id,
+            relname as name,
+            relnamespace as schema,
+            relkind as kind
+        from pg_class
+    ),
+    dependency as (
+        select distinct
+            pg_depend.objid as id,
+            pg_depend.refobjid as ref
+        from pg_depend
+    ),
+    schema as (
+        select
+            pg_namespace.oid as id,
+            pg_namespace.nspname as name
+        from pg_namespace
+        where nspname != 'information_schema' and nspname not like 'pg\_%'
+    ),
+    referenced as (
+        select
+            relation.id AS id,
+            referenced_class.name ,
+            referenced_class.schema ,
+            referenced_class.kind
+        from relation
+        join class as referenced_class on relation.class=referenced_class.id
+        where referenced_class.kind in ('r', 'v', 'm')
+    ),
+    relationships as (
+        select
+            referenced.name as referenced_name,
+            referenced.schema as referenced_schema_id,
+            dependent_class.name as dependent_name,
+            dependent_class.schema as dependent_schema_id,
+            referenced.kind as kind
+        from referenced
+        join dependency on referenced.id=dependency.id
+        join class as dependent_class on dependency.ref=dependent_class.id
+        where
+            (referenced.name != dependent_class.name or
+             referenced.schema != dependent_class.schema)
+    )
+
+    select
+        referenced_schema.name as referenced_schema,
+        relationships.referenced_name as referenced_name,
+        dependent_schema.name as dependent_schema,
+        relationships.dependent_name as dependent_name
+    from relationships
+    join schema as dependent_schema on relationships.dependent_schema_id=dependent_schema.id
+    join schema as referenced_schema on relationships.referenced_schema_id=referenced_schema.id
+    group by referenced_schema, referenced_name, dependent_schema, dependent_name
+    order by referenced_schema, referenced_name, dependent_schema, dependent_name;
+[0m12:55:36.716214 [debug] [MainThread]: SQL status: SELECT 1 in 0.0 seconds
+[0m12:55:36.720505 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '9fd2d007-2a12-4876-9e9e-e1fe0c88900e', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff8ee95110>]}
+[0m12:55:36.721348 [debug] [MainThread]: On master: ROLLBACK
+[0m12:55:36.722402 [debug] [MainThread]: Using postgres connection "master"
+[0m12:55:36.722855 [debug] [MainThread]: On master: BEGIN
+[0m12:55:36.723599 [debug] [MainThread]: SQL status: BEGIN in 0.0 seconds
+[0m12:55:36.724619 [debug] [MainThread]: On master: COMMIT
+[0m12:55:36.724946 [debug] [MainThread]: Using postgres connection "master"
+[0m12:55:36.725077 [debug] [MainThread]: On master: COMMIT
+[0m12:55:36.725286 [debug] [MainThread]: SQL status: COMMIT in 0.0 seconds
+[0m12:55:36.725432 [debug] [MainThread]: On master: Close
+[0m12:55:36.725984 [info ] [MainThread]: Concurrency: 1 threads (target='dev')
+[0m12:55:36.726388 [info ] [MainThread]: 
+[0m12:55:36.758990 [debug] [Thread-1 (]: Began running node model.content_trend_advisor.features_content_engagement
+[0m12:55:36.759479 [info ] [Thread-1 (]: 1 of 1 START sql table model public_marts.features_content_engagement .......... [RUN]
+[0m12:55:36.760128 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_contentdb_public_staging, now model.content_trend_advisor.features_content_engagement)
+[0m12:55:36.760571 [debug] [Thread-1 (]: Began compiling node model.content_trend_advisor.features_content_engagement
+[0m12:55:36.770150 [debug] [Thread-1 (]: Writing injected SQL for node "model.content_trend_advisor.features_content_engagement"
+[0m12:55:36.771019 [debug] [Thread-1 (]: Timing info for model.content_trend_advisor.features_content_engagement (compile): 12:55:36.760770 => 12:55:36.770883
+[0m12:55:36.771245 [debug] [Thread-1 (]: Began executing node model.content_trend_advisor.features_content_engagement
+[0m12:55:36.795058 [debug] [Thread-1 (]: Writing runtime sql for node "model.content_trend_advisor.features_content_engagement"
+[0m12:55:36.795796 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m12:55:36.795975 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: BEGIN
+[0m12:55:36.796187 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m12:55:36.799337 [debug] [Thread-1 (]: SQL status: BEGIN in 0.0 seconds
+[0m12:55:36.799671 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m12:55:36.800038 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.features_content_engagement"} */
+
+  
+    
+
+  create  table "contentdb"."public_marts"."features_content_engagement__dbt_tmp"
+  
+  
+    as
+  
+  (
+    with yt as (
+    select * from "contentdb"."public_staging"."stg_youtube"
+),
+
+enriched AS (
+  SELECT
+    video_id,
+    title,
+    description,
+    channel_id,
+    channel_title,
+    published_at,
+    category_id,
+    default_audio_language,
+    tags,
+    topic_categories,
+    detected_topics,
+    detected_language,
+    category_name,
+    view_count,
+    like_count,
+    comment_count,
+    engagement_rate,
+    engagement_ratio_raw,
+    duration_seconds,
+    days_since_published,
+    channel_subscriber_count,
+    yt_trending_seen,
+
+    /* Simple feature engineering */
+    char_length(title)                                        AS title_len,
+    CASE WHEN title ~ '\\d' THEN true ELSE false END           AS title_has_numbers,
+    EXTRACT(HOUR FROM published_at)                           AS hour_of_day,
+    EXTRACT(DOW FROM published_at)                            AS day_of_week,
+
+    CASE
+      WHEN duration_seconds IS NULL THEN 'unknown'
+      WHEN duration_seconds < 60 THEN 'short'
+      WHEN duration_seconds < 300 THEN 'medium'
+      WHEN duration_seconds < 900 THEN 'long'
+      ELSE 'very_long'
+    END                                                       AS content_length_bucket,
+
+    CASE
+      WHEN engagement_ratio_raw >= 0.10 THEN 'high'
+      WHEN engagement_ratio_raw >= 0.05 THEN 'medium'
+      WHEN engagement_ratio_raw >= 0.01 THEN 'low'
+      ELSE 'very_low'
+    END                                                       AS engagement_tier,
+
+    /* Age and velocity */
+    GREATEST(EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0, 0.0)  AS age_hours,
+    GREATEST(EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0, 6.0)  AS age_hours_capped,
+    CASE
+      WHEN EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0 < 24  THEN '0_24h'
+      WHEN EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0 < 72  THEN '24_72h'
+      WHEN EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0 < 168 THEN '3_7d'
+      ELSE '7d_plus'
+    END                                                       AS age_bucket,
+    (view_count::numeric / NULLIF(GREATEST(EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0, 6.0), 0))
+                                                              AS views_per_hour,
+    CASE WHEN channel_subscriber_count IS NOT NULL AND channel_subscriber_count > 0
+         THEN (view_count::numeric / NULLIF(GREATEST(EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0, 6.0), 0))
+              / (channel_subscriber_count / 1000.0)
+         ELSE NULL
+    END                                                       AS views_per_hour_per_1k_subs
+
+  FROM yt
+),
+
+scored AS (
+  SELECT
+    e.*,
+    percent_rank() OVER (PARTITION BY e.category_id, e.age_bucket ORDER BY e.views_per_hour) AS vph_pct_in_category,
+    percent_rank() OVER (PARTITION BY e.channel_id,  e.age_bucket ORDER BY e.views_per_hour) AS vph_pct_in_channel,
+
+    CASE
+      WHEN (
+        (percent_rank() OVER (PARTITION BY e.category_id, e.age_bucket ORDER BY e.views_per_hour) >= 0.90
+         OR percent_rank() OVER (PARTITION BY e.channel_id,  e.age_bucket ORDER BY e.views_per_hour) >= 0.95)
+        AND e.engagement_ratio_raw >= 0.01
+        AND e.views_per_hour >= CASE e.age_bucket
+                                  WHEN '0_24h'  THEN 200
+                                  WHEN '24_72h' THEN 100
+                                  WHEN '3_7d'   THEN 50
+                                  ELSE 25
+                                END
+        AND e.view_count >= 3000
+      ) THEN true ELSE false
+    END                                                       AS is_trending,
+
+    CASE
+      WHEN yt_trending_seen THEN 'yt_most_popular'
+      WHEN engagement_ratio_raw < 0.01 THEN 'low_engagement'
+      WHEN view_count < 3000 THEN 'low_total_views'
+      ELSE 'velocity_percentile'
+    END                                                       AS trending_reason
+  FROM enriched e
+)
+
+SELECT * FROM scored
+  );
+  
+[0m12:55:37.019172 [debug] [Thread-1 (]: SQL status: SELECT 855 in 0.0 seconds
+[0m12:55:37.024523 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m12:55:37.024744 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.features_content_engagement"} */
+alter table "contentdb"."public_marts"."features_content_engagement" rename to "features_content_engagement__dbt_backup"
+[0m12:55:37.027161 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.0 seconds
+[0m12:55:37.028494 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m12:55:37.028656 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.features_content_engagement"} */
+alter table "contentdb"."public_marts"."features_content_engagement__dbt_tmp" rename to "features_content_engagement"
+[0m12:55:37.028891 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.0 seconds
+[0m12:55:37.036982 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: COMMIT
+[0m12:55:37.037220 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m12:55:37.037423 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: COMMIT
+[0m12:55:37.086599 [debug] [Thread-1 (]: SQL status: COMMIT in 0.0 seconds
+[0m12:55:37.089924 [debug] [Thread-1 (]: Applying DROP to: "contentdb"."public_marts"."features_content_engagement__dbt_backup"
+[0m12:55:37.092042 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m12:55:37.092222 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.features_content_engagement"} */
+drop table if exists "contentdb"."public_marts"."features_content_engagement__dbt_backup" cascade
+[0m12:55:37.133878 [debug] [Thread-1 (]: SQL status: DROP TABLE in 0.0 seconds
+[0m12:55:37.134973 [debug] [Thread-1 (]: Timing info for model.content_trend_advisor.features_content_engagement (execute): 12:55:36.771421 => 12:55:37.134810
+[0m12:55:37.135233 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: Close
+[0m12:55:37.139049 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '9fd2d007-2a12-4876-9e9e-e1fe0c88900e', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff8ed83090>]}
+[0m12:55:37.139905 [info ] [Thread-1 (]: 1 of 1 OK created sql table model public_marts.features_content_engagement ..... [[32mSELECT 855[0m in 0.38s]
+[0m12:55:37.140531 [debug] [Thread-1 (]: Finished running node model.content_trend_advisor.features_content_engagement
+[0m12:55:37.142092 [debug] [MainThread]: Using postgres connection "master"
+[0m12:55:37.142273 [debug] [MainThread]: On master: BEGIN
+[0m12:55:37.142411 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m12:55:37.160601 [debug] [MainThread]: SQL status: BEGIN in 0.0 seconds
+[0m12:55:37.160995 [debug] [MainThread]: On master: COMMIT
+[0m12:55:37.161189 [debug] [MainThread]: Using postgres connection "master"
+[0m12:55:37.161338 [debug] [MainThread]: On master: COMMIT
+[0m12:55:37.161588 [debug] [MainThread]: SQL status: COMMIT in 0.0 seconds
+[0m12:55:37.161748 [debug] [MainThread]: On master: Close
+[0m12:55:37.162146 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m12:55:37.162305 [debug] [MainThread]: Connection 'model.content_trend_advisor.features_content_engagement' was properly closed.
+[0m12:55:37.162535 [info ] [MainThread]: 
+[0m12:55:37.162792 [info ] [MainThread]: Finished running 1 table model in 0 hours 0 minutes and 0.55 seconds (0.55s).
+[0m12:55:37.163174 [debug] [MainThread]: Command end result
+[0m12:55:37.190250 [info ] [MainThread]: 
+[0m12:55:37.190811 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m12:55:37.191176 [info ] [MainThread]: 
+[0m12:55:37.191453 [info ] [MainThread]: Done. PASS=1 WARN=0 ERROR=0 SKIP=0 TOTAL=1
+[0m12:55:37.193343 [debug] [MainThread]: Resource report: {"command_name": "run", "command_success": true, "command_wall_clock_time": 0.8816749, "process_user_time": 1.335141, "process_kernel_time": 0.540803, "process_mem_max_rss": "130440", "process_out_blocks": "3779", "process_in_blocks": "0"}
+[0m12:55:37.193789 [debug] [MainThread]: Command `dbt run` succeeded at 12:55:37.193726 after 0.88 seconds
+[0m12:55:37.194162 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff900eec50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff92cab450>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff950c8410>]}
+[0m12:55:37.194367 [debug] [MainThread]: Flushing usage events
+[0m13:06:48.125381 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa17cfed0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa1675210>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa16753d0>]}
+
+
+============================== 13:06:48.163815 | c3697b8b-8bb2-4cdf-8b3c-8979df0a60c3 ==============================
+[0m13:06:48.163815 [info ] [MainThread]: Running with dbt=1.7.8
+[0m13:06:48.164221 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'debug': 'False', 'version_check': 'True', 'log_path': '/app/services/transform/logs', 'fail_fast': 'False', 'profiles_dir': '/app/services/transform', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'introspect': 'True', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'target_path': 'None', 'invocation_command': 'dbt run -s stg_youtube features_content_engagement', 'send_anonymous_usage_stats': 'True'}
+[0m13:06:48.382004 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'c3697b8b-8bb2-4cdf-8b3c-8979df0a60c3', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa08cac10>]}
+[0m13:06:48.470657 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'c3697b8b-8bb2-4cdf-8b3c-8979df0a60c3', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa0733050>]}
+[0m13:06:48.471254 [info ] [MainThread]: Registered adapter: postgres=1.7.8
+[0m13:06:48.495295 [debug] [MainThread]: checksum: 67f0013ca5f0bd43af9a0873dd50792fde83ef69de63b71cacd0b4ac656c52e5, vars: {}, profile: , target: , version: 1.7.8
+[0m13:06:48.847310 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m13:06:48.847807 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m13:06:48.848441 [warn ] [MainThread]: [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 1 unused configuration paths:
+- snapshots.content_trend_advisor
+[0m13:06:48.858745 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'c3697b8b-8bb2-4cdf-8b3c-8979df0a60c3', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa2fdca90>]}
+[0m13:06:48.923059 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'c3697b8b-8bb2-4cdf-8b3c-8979df0a60c3', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa13d6850>]}
+[0m13:06:48.923638 [info ] [MainThread]: Found 13 tests, 2 models, 1 source, 0 exposures, 0 metrics, 530 macros, 0 groups, 0 semantic models
+[0m13:06:48.924290 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'c3697b8b-8bb2-4cdf-8b3c-8979df0a60c3', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa17eb710>]}
+[0m13:06:48.927400 [info ] [MainThread]: 
+[0m13:06:48.928586 [debug] [MainThread]: Acquiring new postgres connection 'master'
+[0m13:06:48.933611 [debug] [ThreadPool]: Acquiring new postgres connection 'list_contentdb'
+[0m13:06:48.944781 [debug] [ThreadPool]: Using postgres connection "list_contentdb"
+[0m13:06:48.945034 [debug] [ThreadPool]: On list_contentdb: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "list_contentdb"} */
+
+    select distinct nspname from pg_namespace
+  
+[0m13:06:48.945192 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m13:06:49.025930 [debug] [ThreadPool]: SQL status: SELECT 6 in 0.0 seconds
+[0m13:06:49.027084 [debug] [ThreadPool]: On list_contentdb: Close
+[0m13:06:49.029382 [debug] [ThreadPool]: Using postgres connection "list_contentdb"
+[0m13:06:49.029556 [debug] [ThreadPool]: On list_contentdb: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "list_contentdb"} */
+
+    select distinct nspname from pg_namespace
+  
+[0m13:06:49.029695 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m13:06:49.060257 [debug] [ThreadPool]: SQL status: SELECT 6 in 0.0 seconds
+[0m13:06:49.061573 [debug] [ThreadPool]: On list_contentdb: Close
+[0m13:06:49.063388 [debug] [ThreadPool]: Acquiring new postgres connection 'list_contentdb_public_marts'
+[0m13:06:49.068909 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_marts"
+[0m13:06:49.069094 [debug] [ThreadPool]: On list_contentdb_public_marts: BEGIN
+[0m13:06:49.069247 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m13:06:49.090011 [debug] [ThreadPool]: SQL status: BEGIN in 0.0 seconds
+[0m13:06:49.090283 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_marts"
+[0m13:06:49.090428 [debug] [ThreadPool]: On list_contentdb_public_marts: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "list_contentdb_public_marts"} */
+select
+      'contentdb' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'public_marts'
+    union all
+    select
+      'contentdb' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'public_marts'
+    union all
+    select
+      'contentdb' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'public_marts'
+  
+[0m13:06:49.125241 [debug] [ThreadPool]: SQL status: SELECT 1 in 0.0 seconds
+[0m13:06:49.126240 [debug] [ThreadPool]: On list_contentdb_public_marts: ROLLBACK
+[0m13:06:49.126540 [debug] [ThreadPool]: On list_contentdb_public_marts: Close
+[0m13:06:49.128431 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_contentdb_public_marts, now list_contentdb_public_staging)
+[0m13:06:49.129734 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_staging"
+[0m13:06:49.129901 [debug] [ThreadPool]: On list_contentdb_public_staging: BEGIN
+[0m13:06:49.130043 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m13:06:49.143679 [debug] [ThreadPool]: SQL status: BEGIN in 0.0 seconds
+[0m13:06:49.144020 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_staging"
+[0m13:06:49.144342 [debug] [ThreadPool]: On list_contentdb_public_staging: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "list_contentdb_public_staging"} */
+select
+      'contentdb' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'public_staging'
+    union all
+    select
+      'contentdb' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'public_staging'
+    union all
+    select
+      'contentdb' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'public_staging'
+  
+[0m13:06:49.149624 [debug] [ThreadPool]: SQL status: SELECT 1 in 0.0 seconds
+[0m13:06:49.150215 [debug] [ThreadPool]: On list_contentdb_public_staging: ROLLBACK
+[0m13:06:49.150422 [debug] [ThreadPool]: On list_contentdb_public_staging: Close
+[0m13:06:49.153229 [debug] [MainThread]: Using postgres connection "master"
+[0m13:06:49.153523 [debug] [MainThread]: On master: BEGIN
+[0m13:06:49.153758 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m13:06:49.161821 [debug] [MainThread]: SQL status: BEGIN in 0.0 seconds
+[0m13:06:49.162087 [debug] [MainThread]: Using postgres connection "master"
+[0m13:06:49.162401 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "master"} */
+with relation as (
+        select
+            pg_rewrite.ev_class as class,
+            pg_rewrite.oid as id
+        from pg_rewrite
+    ),
+    class as (
+        select
+            oid as id,
+            relname as name,
+            relnamespace as schema,
+            relkind as kind
+        from pg_class
+    ),
+    dependency as (
+        select distinct
+            pg_depend.objid as id,
+            pg_depend.refobjid as ref
+        from pg_depend
+    ),
+    schema as (
+        select
+            pg_namespace.oid as id,
+            pg_namespace.nspname as name
+        from pg_namespace
+        where nspname != 'information_schema' and nspname not like 'pg\_%'
+    ),
+    referenced as (
+        select
+            relation.id AS id,
+            referenced_class.name ,
+            referenced_class.schema ,
+            referenced_class.kind
+        from relation
+        join class as referenced_class on relation.class=referenced_class.id
+        where referenced_class.kind in ('r', 'v', 'm')
+    ),
+    relationships as (
+        select
+            referenced.name as referenced_name,
+            referenced.schema as referenced_schema_id,
+            dependent_class.name as dependent_name,
+            dependent_class.schema as dependent_schema_id,
+            referenced.kind as kind
+        from referenced
+        join dependency on referenced.id=dependency.id
+        join class as dependent_class on dependency.ref=dependent_class.id
+        where
+            (referenced.name != dependent_class.name or
+             referenced.schema != dependent_class.schema)
+    )
+
+    select
+        referenced_schema.name as referenced_schema,
+        relationships.referenced_name as referenced_name,
+        dependent_schema.name as dependent_schema,
+        relationships.dependent_name as dependent_name
+    from relationships
+    join schema as dependent_schema on relationships.dependent_schema_id=dependent_schema.id
+    join schema as referenced_schema on relationships.referenced_schema_id=referenced_schema.id
+    group by referenced_schema, referenced_name, dependent_schema, dependent_name
+    order by referenced_schema, referenced_name, dependent_schema, dependent_name;
+[0m13:06:49.195595 [debug] [MainThread]: SQL status: SELECT 1 in 0.0 seconds
+[0m13:06:49.196913 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'c3697b8b-8bb2-4cdf-8b3c-8979df0a60c3', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa0752050>]}
+[0m13:06:49.197352 [debug] [MainThread]: On master: ROLLBACK
+[0m13:06:49.197730 [debug] [MainThread]: Using postgres connection "master"
+[0m13:06:49.197901 [debug] [MainThread]: On master: BEGIN
+[0m13:06:49.198215 [debug] [MainThread]: SQL status: BEGIN in 0.0 seconds
+[0m13:06:49.198518 [debug] [MainThread]: On master: COMMIT
+[0m13:06:49.198762 [debug] [MainThread]: Using postgres connection "master"
+[0m13:06:49.198890 [debug] [MainThread]: On master: COMMIT
+[0m13:06:49.199054 [debug] [MainThread]: SQL status: COMMIT in 0.0 seconds
+[0m13:06:49.200487 [debug] [MainThread]: On master: Close
+[0m13:06:49.200992 [info ] [MainThread]: Concurrency: 1 threads (target='dev')
+[0m13:06:49.201317 [info ] [MainThread]: 
+[0m13:06:49.255250 [debug] [Thread-1 (]: Began running node model.content_trend_advisor.stg_youtube
+[0m13:06:49.260485 [info ] [Thread-1 (]: 1 of 2 START sql view model public_staging.stg_youtube ......................... [RUN]
+[0m13:06:49.264952 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_contentdb_public_staging, now model.content_trend_advisor.stg_youtube)
+[0m13:06:49.265523 [debug] [Thread-1 (]: Began compiling node model.content_trend_advisor.stg_youtube
+[0m13:06:49.278549 [debug] [Thread-1 (]: Writing injected SQL for node "model.content_trend_advisor.stg_youtube"
+[0m13:06:49.282019 [debug] [Thread-1 (]: Timing info for model.content_trend_advisor.stg_youtube (compile): 13:06:49.265719 => 13:06:49.281791
+[0m13:06:49.282352 [debug] [Thread-1 (]: Began executing node model.content_trend_advisor.stg_youtube
+[0m13:06:49.315756 [debug] [Thread-1 (]: Writing runtime sql for node "model.content_trend_advisor.stg_youtube"
+[0m13:06:49.317364 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.stg_youtube"
+[0m13:06:49.317604 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: BEGIN
+[0m13:06:49.317778 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m13:06:49.329311 [debug] [Thread-1 (]: SQL status: BEGIN in 0.0 seconds
+[0m13:06:49.330040 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.stg_youtube"
+[0m13:06:49.330429 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.stg_youtube"} */
+
+  create view "contentdb"."public_staging"."stg_youtube__dbt_tmp"
+    
+    
+  as (
+    WITH src AS (
+  SELECT 
+    external_id AS video_id,
+    fetched_at,
+    payload
+  FROM "contentdb"."public"."raw_content"
+  WHERE source = 'youtube'
+), 
+
+clean AS (
+  SELECT
+    video_id,
+
+    /* Titles and descriptions: prefer localized when present */
+    COALESCE(payload->'snippet'->'localized'->>'title', payload->'snippet'->>'title') AS title,
+    LEFT(COALESCE(payload->'snippet'->'localized'->>'description', payload->'snippet'->>'description', ''), 1000) AS description,
+
+    /* Channel and timing info */
+    payload->'snippet'->>'channelId' AS channel_id,
+    payload->'snippet'->>'channelTitle' AS channel_title,
+    (payload->'snippet'->>'publishedAt')::timestamptz AS published_at,
+
+    /* Category and language (note: YouTube uses camelCase keys) */
+    payload->'snippet'->>'categoryId' AS category_id,
+    payload->'snippet'->>'defaultAudioLanguage' AS default_audio_language,
+    CASE
+      WHEN payload->'snippet'->>'defaultAudioLanguage' IS NULL THEN true
+      WHEN lower(payload->'snippet'->>'defaultAudioLanguage') = 'zxx' THEN true
+      WHEN lower(payload->'snippet'->>'defaultAudioLanguage') LIKE 'en%' THEN true
+      ELSE false
+    END AS audio_language_is_english,
+
+    /* Core metrics from statistics (->> needs quoted keys) */
+    COALESCE((payload->'statistics'->>'viewCount')::bigint, 0) AS view_count,
+    COALESCE((payload->'statistics'->>'likeCount')::bigint, 0) AS like_count,
+    COALESCE((payload->'statistics'->>'commentCount')::bigint, 0) AS comment_count,
+
+    /* Duration as seconds from ISO8601 duration */
+    CASE
+      WHEN payload->'contentDetails'->>'duration' IS NOT NULL
+        THEN 
+  (
+    COALESCE( (regexp_match((payload->'contentDetails'->>'duration'), 'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?'))[1], '0')::int * 3600
+  + COALESCE( (regexp_match((payload->'contentDetails'->>'duration'), 'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?'))[2], '0')::int * 60
+  + COALESCE( (regexp_match((payload->'contentDetails'->>'duration'), 'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?'))[3], '0')::int
+  )
+
+      ELSE NULL
+    END AS duration_seconds,
+
+    /* Tags, topics, categories */
+    
+  COALESCE(
+    ARRAY(
+      SELECT jsonb_array_elements_text(payload->'snippet'->'tags')
+    ),
+    ARRAY[]::text[]
+  )
+ AS tags,
+
+    /* _filter_metadata.detected_topics is an array; use -> (JSONB) not ->> (text) */
+    COALESCE(
+      ARRAY(SELECT jsonb_array_elements_text(payload->'_filter_metadata'->'detected_topics')),
+      ARRAY[]::text[]
+    ) AS detected_topics,
+
+    payload->'_filter_metadata'->>'detected_language' AS detected_language,
+    payload->'_filter_metadata'->>'category_name' AS category_name,
+
+    /* topicDetails.topicCategories is an array of URLs */
+    COALESCE(
+      ARRAY(SELECT jsonb_array_elements_text(payload->'topicDetails'->'topicCategories')),
+      ARRAY[]::text[]
+    ) AS topic_categories,
+
+    /* Derived metrics */
+    
+  CASE
+    WHEN (COALESCE((payload->'statistics'->>'viewCount')::bigint, 0))::numeric > 0
+      THEN ((COALESCE(COALESCE((payload->'statistics'->>'likeCount')::bigint, 0), 0))::numeric + (COALESCE(COALESCE((payload->'statistics'->>'commentCount')::bigint, 0), 0))::numeric) / (COALESCE((payload->'statistics'->>'viewCount')::bigint, 0))::numeric
+    ELSE 0::numeric
+  END
+ AS engagement_ratio_raw,
+    /* Keep a percentage for readability, but derived from the raw ratio */
+    ROUND((
+      
+  CASE
+    WHEN (COALESCE((payload->'statistics'->>'viewCount')::bigint, 0))::numeric > 0
+      THEN ((COALESCE(COALESCE((payload->'statistics'->>'likeCount')::bigint, 0), 0))::numeric + (COALESCE(COALESCE((payload->'statistics'->>'commentCount')::bigint, 0), 0))::numeric) / (COALESCE((payload->'statistics'->>'viewCount')::bigint, 0))::numeric
+    ELSE 0::numeric
+  END
+ * 100::numeric
+    ), 2) AS engagement_rate,
+    DATE_TRUNC('day', fetched_at) AS fetched_date,
+    EXTRACT(DAY FROM (NOW() - (payload->'snippet'->>'publishedAt')::timestamptz)) AS days_since_published,
+
+    /* Channel enrichment from ETL (if present) */
+    (payload->'_channel_metadata'->>'subscriberCount')::bigint               AS channel_subscriber_count,
+    (payload->'_channel_metadata'->>'hiddenSubscriberCount')::boolean         AS channel_hidden_subscribers,
+    (payload->'_channel_metadata'->>'videoCount')::bigint                     AS channel_video_count,
+
+    /* Trending-source flag (if captured during ingestion) */
+    COALESCE((payload->'_source_flags'->>'youtube_trending')::boolean, false) AS yt_trending_seen
+
+  FROM src
+)
+
+SELECT * FROM clean
+  );
+[0m13:06:49.387802 [debug] [Thread-1 (]: SQL status: CREATE VIEW in 0.0 seconds
+[0m13:06:49.397493 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.stg_youtube"
+[0m13:06:49.397886 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.stg_youtube"} */
+alter table "contentdb"."public_staging"."stg_youtube" rename to "stg_youtube__dbt_backup"
+[0m13:06:49.401785 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.0 seconds
+[0m13:06:49.403670 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.stg_youtube"
+[0m13:06:49.403915 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.stg_youtube"} */
+alter table "contentdb"."public_staging"."stg_youtube__dbt_tmp" rename to "stg_youtube"
+[0m13:06:49.404752 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.0 seconds
+[0m13:06:49.411990 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: COMMIT
+[0m13:06:49.412280 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.stg_youtube"
+[0m13:06:49.412428 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: COMMIT
+[0m13:06:49.412956 [debug] [Thread-1 (]: SQL status: COMMIT in 0.0 seconds
+[0m13:06:49.415537 [debug] [Thread-1 (]: Applying DROP to: "contentdb"."public_staging"."stg_youtube__dbt_backup"
+[0m13:06:49.418093 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.stg_youtube"
+[0m13:06:49.418263 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.stg_youtube"} */
+drop view if exists "contentdb"."public_staging"."stg_youtube__dbt_backup" cascade
+[0m13:06:49.424618 [debug] [Thread-1 (]: SQL status: DROP VIEW in 0.0 seconds
+[0m13:06:49.425485 [debug] [Thread-1 (]: Timing info for model.content_trend_advisor.stg_youtube (execute): 13:06:49.282995 => 13:06:49.425390
+[0m13:06:49.425671 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: Close
+[0m13:06:49.426153 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'c3697b8b-8bb2-4cdf-8b3c-8979df0a60c3', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa042b790>]}
+[0m13:06:49.426537 [info ] [Thread-1 (]: 1 of 2 OK created sql view model public_staging.stg_youtube .................... [[32mCREATE VIEW[0m in 0.16s]
+[0m13:06:49.426998 [debug] [Thread-1 (]: Finished running node model.content_trend_advisor.stg_youtube
+[0m13:06:49.427827 [debug] [Thread-1 (]: Began running node model.content_trend_advisor.features_content_engagement
+[0m13:06:49.428077 [info ] [Thread-1 (]: 2 of 2 START sql table model public_marts.features_content_engagement .......... [RUN]
+[0m13:06:49.428497 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.content_trend_advisor.stg_youtube, now model.content_trend_advisor.features_content_engagement)
+[0m13:06:49.428707 [debug] [Thread-1 (]: Began compiling node model.content_trend_advisor.features_content_engagement
+[0m13:06:49.430475 [debug] [Thread-1 (]: Writing injected SQL for node "model.content_trend_advisor.features_content_engagement"
+[0m13:06:49.431114 [debug] [Thread-1 (]: Timing info for model.content_trend_advisor.features_content_engagement (compile): 13:06:49.428830 => 13:06:49.431020
+[0m13:06:49.431286 [debug] [Thread-1 (]: Began executing node model.content_trend_advisor.features_content_engagement
+[0m13:06:49.443439 [debug] [Thread-1 (]: Writing runtime sql for node "model.content_trend_advisor.features_content_engagement"
+[0m13:06:49.444681 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m13:06:49.444880 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: BEGIN
+[0m13:06:49.445081 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m13:06:49.450748 [debug] [Thread-1 (]: SQL status: BEGIN in 0.0 seconds
+[0m13:06:49.451093 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m13:06:49.451490 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.features_content_engagement"} */
+
+  
+    
+
+  create  table "contentdb"."public_marts"."features_content_engagement__dbt_tmp"
+  
+  
+    as
+  
+  (
+    with yt as (
+    select * from "contentdb"."public_staging"."stg_youtube"
+),
+
+enriched AS (
+  SELECT
+    video_id,
+    title,
+    description,
+    channel_id,
+    channel_title,
+    published_at,
+    category_id,
+    default_audio_language,
+    tags,
+    topic_categories,
+    detected_topics,
+    detected_language,
+    category_name,
+    view_count,
+    like_count,
+    comment_count,
+    engagement_rate,
+    engagement_ratio_raw,
+    duration_seconds,
+    days_since_published,
+    channel_subscriber_count,
+    yt_trending_seen,
+
+    /* Simple feature engineering */
+    char_length(title)                                        AS title_len,
+    CASE WHEN title ~ '\\d' THEN true ELSE false END           AS title_has_numbers,
+    EXTRACT(HOUR FROM published_at)                           AS hour_of_day,
+    EXTRACT(DOW FROM published_at)                            AS day_of_week,
+
+    CASE
+      WHEN duration_seconds IS NULL THEN 'unknown'
+      WHEN duration_seconds < 60 THEN 'short'
+      WHEN duration_seconds < 300 THEN 'medium'
+      WHEN duration_seconds < 900 THEN 'long'
+      ELSE 'very_long'
+    END                                                       AS content_length_bucket,
+
+    CASE
+      WHEN engagement_ratio_raw >= 0.10 THEN 'high'
+      WHEN engagement_ratio_raw >= 0.05 THEN 'medium'
+      WHEN engagement_ratio_raw >= 0.01 THEN 'low'
+      ELSE 'very_low'
+    END                                                       AS engagement_tier,
+
+    /* Age and velocity */
+    GREATEST(EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0, 0.0)  AS age_hours,
+    GREATEST(EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0, 6.0)  AS age_hours_capped,
+    CASE
+      WHEN EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0 < 24  THEN '0_24h'
+      WHEN EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0 < 72  THEN '24_72h'
+      WHEN EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0 < 168 THEN '3_7d'
+      ELSE '7d_plus'
+    END                                                       AS age_bucket,
+    (view_count::numeric / NULLIF(GREATEST(EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0, 6.0), 0))
+                                                              AS views_per_hour,
+    CASE WHEN channel_subscriber_count IS NOT NULL AND channel_subscriber_count > 0
+         THEN (view_count::numeric / NULLIF(GREATEST(EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0, 6.0), 0))
+              / (channel_subscriber_count / 1000.0)
+         ELSE NULL
+    END                                                       AS views_per_hour_per_1k_subs
+
+  FROM yt
+),
+
+scored AS (
+  SELECT
+    e.*,
+    percent_rank() OVER (PARTITION BY e.category_id, e.age_bucket ORDER BY e.views_per_hour) AS vph_pct_in_category,
+    percent_rank() OVER (PARTITION BY e.channel_id,  e.age_bucket ORDER BY e.views_per_hour) AS vph_pct_in_channel,
+
+    CASE
+      WHEN (
+        (percent_rank() OVER (PARTITION BY e.category_id, e.age_bucket ORDER BY e.views_per_hour) >= 0.90
+         OR percent_rank() OVER (PARTITION BY e.channel_id,  e.age_bucket ORDER BY e.views_per_hour) >= 0.95)
+        AND e.engagement_ratio_raw >= 0.01
+        AND e.views_per_hour >= CASE e.age_bucket
+                                  WHEN '0_24h'  THEN 200
+                                  WHEN '24_72h' THEN 100
+                                  WHEN '3_7d'   THEN 50
+                                  ELSE 25
+                                END
+        AND e.view_count >= 3000
+      ) THEN true ELSE false
+    END                                                       AS is_trending,
+
+    CASE
+      WHEN yt_trending_seen THEN 'yt_most_popular'
+      WHEN engagement_ratio_raw < 0.01 THEN 'low_engagement'
+      WHEN view_count < 3000 THEN 'low_total_views'
+      ELSE 'velocity_percentile'
+    END                                                       AS trending_reason
+  FROM enriched e
+)
+
+SELECT * FROM scored
+  );
+  
+[0m13:06:50.378442 [debug] [Thread-1 (]: SQL status: SELECT 4208 in 1.0 seconds
+[0m13:06:50.390692 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m13:06:50.391089 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.features_content_engagement"} */
+alter table "contentdb"."public_marts"."features_content_engagement" rename to "features_content_engagement__dbt_backup"
+[0m13:06:50.392059 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.0 seconds
+[0m13:06:50.393652 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m13:06:50.393912 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.features_content_engagement"} */
+alter table "contentdb"."public_marts"."features_content_engagement__dbt_tmp" rename to "features_content_engagement"
+[0m13:06:50.394307 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.0 seconds
+[0m13:06:50.398861 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: COMMIT
+[0m13:06:50.399116 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m13:06:50.399274 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: COMMIT
+[0m13:06:50.403457 [debug] [Thread-1 (]: SQL status: COMMIT in 0.0 seconds
+[0m13:06:50.407370 [debug] [Thread-1 (]: Applying DROP to: "contentdb"."public_marts"."features_content_engagement__dbt_backup"
+[0m13:06:50.409338 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m13:06:50.409507 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.features_content_engagement"} */
+drop table if exists "contentdb"."public_marts"."features_content_engagement__dbt_backup" cascade
+[0m13:06:50.417023 [debug] [Thread-1 (]: SQL status: DROP TABLE in 0.0 seconds
+[0m13:06:50.418036 [debug] [Thread-1 (]: Timing info for model.content_trend_advisor.features_content_engagement (execute): 13:06:49.431392 => 13:06:50.417794
+[0m13:06:50.418286 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: Close
+[0m13:06:50.419309 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'c3697b8b-8bb2-4cdf-8b3c-8979df0a60c3', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa04b9e50>]}
+[0m13:06:50.419905 [info ] [Thread-1 (]: 2 of 2 OK created sql table model public_marts.features_content_engagement ..... [[32mSELECT 4208[0m in 0.99s]
+[0m13:06:50.420515 [debug] [Thread-1 (]: Finished running node model.content_trend_advisor.features_content_engagement
+[0m13:06:50.425090 [debug] [MainThread]: Using postgres connection "master"
+[0m13:06:50.425514 [debug] [MainThread]: On master: BEGIN
+[0m13:06:50.425676 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m13:06:50.447539 [debug] [MainThread]: SQL status: BEGIN in 0.0 seconds
+[0m13:06:50.448026 [debug] [MainThread]: On master: COMMIT
+[0m13:06:50.448234 [debug] [MainThread]: Using postgres connection "master"
+[0m13:06:50.448764 [debug] [MainThread]: On master: COMMIT
+[0m13:06:50.449339 [debug] [MainThread]: SQL status: COMMIT in 0.0 seconds
+[0m13:06:50.449716 [debug] [MainThread]: On master: Close
+[0m13:06:50.451485 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m13:06:50.452560 [debug] [MainThread]: Connection 'list_contentdb' was properly closed.
+[0m13:06:50.453506 [debug] [MainThread]: Connection 'model.content_trend_advisor.features_content_engagement' was properly closed.
+[0m13:06:50.454877 [info ] [MainThread]: 
+[0m13:06:50.455546 [info ] [MainThread]: Finished running 1 view model, 1 table model in 0 hours 0 minutes and 1.53 seconds (1.53s).
+[0m13:06:50.456873 [debug] [MainThread]: Command end result
+[0m13:06:50.514978 [info ] [MainThread]: 
+[0m13:06:50.515635 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m13:06:50.516068 [info ] [MainThread]: 
+[0m13:06:50.516667 [info ] [MainThread]: Done. PASS=2 WARN=0 ERROR=0 SKIP=0 TOTAL=2
+[0m13:06:50.526047 [debug] [MainThread]: Resource report: {"command_name": "run", "command_success": true, "command_wall_clock_time": 2.4420118, "process_user_time": 2.049193, "process_kernel_time": 2.527867, "process_mem_max_rss": "130060", "process_in_blocks": "64", "process_out_blocks": "3836"}
+[0m13:06:50.529431 [debug] [MainThread]: Command `dbt run` succeeded at 13:06:50.529236 after 2.45 seconds
+[0m13:06:50.530741 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa1f22b90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa19b7010>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa6a6a350>]}
+[0m13:06:50.531626 [debug] [MainThread]: Flushing usage events
+[0m13:28:33.409710 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9e8667d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9ecdb690>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9ee30c50>]}
+
+
+============================== 13:28:33.419600 | 4e48f5d8-798f-4b85-988d-0f486f8e5150 ==============================
+[0m13:28:33.419600 [info ] [MainThread]: Running with dbt=1.7.8
+[0m13:28:33.419956 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/app/services/transform', 'fail_fast': 'False', 'debug': 'False', 'log_path': '/app/services/transform/logs', 'warn_error': 'None', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'static_parser': 'True', 'introspect': 'True', 'invocation_command': 'dbt run -s stg_youtube features_content_engagement', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'send_anonymous_usage_stats': 'True'}
+[0m13:28:33.581927 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '4e48f5d8-798f-4b85-988d-0f486f8e5150', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9ee3f310>]}
+[0m13:28:33.631592 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '4e48f5d8-798f-4b85-988d-0f486f8e5150', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9eb74790>]}
+[0m13:28:33.632183 [info ] [MainThread]: Registered adapter: postgres=1.7.8
+[0m13:28:33.644761 [debug] [MainThread]: checksum: 67f0013ca5f0bd43af9a0873dd50792fde83ef69de63b71cacd0b4ac656c52e5, vars: {}, profile: , target: , version: 1.7.8
+[0m13:28:33.784581 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m13:28:33.784799 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m13:28:33.785127 [warn ] [MainThread]: [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 1 unused configuration paths:
+- snapshots.content_trend_advisor
+[0m13:28:33.790042 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '4e48f5d8-798f-4b85-988d-0f486f8e5150', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9dd96010>]}
+[0m13:28:33.843379 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '4e48f5d8-798f-4b85-988d-0f486f8e5150', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9dd1d050>]}
+[0m13:28:33.843731 [info ] [MainThread]: Found 13 tests, 2 models, 1 source, 0 exposures, 0 metrics, 530 macros, 0 groups, 0 semantic models
+[0m13:28:33.844009 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '4e48f5d8-798f-4b85-988d-0f486f8e5150', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9ee31e50>]}
+[0m13:28:33.845480 [info ] [MainThread]: 
+[0m13:28:33.846084 [debug] [MainThread]: Acquiring new postgres connection 'master'
+[0m13:28:33.847209 [debug] [ThreadPool]: Acquiring new postgres connection 'list_contentdb'
+[0m13:28:33.860187 [debug] [ThreadPool]: Using postgres connection "list_contentdb"
+[0m13:28:33.860449 [debug] [ThreadPool]: On list_contentdb: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "list_contentdb"} */
+
+    select distinct nspname from pg_namespace
+  
+[0m13:28:33.860587 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m13:28:33.906992 [debug] [ThreadPool]: SQL status: SELECT 6 in 0.0 seconds
+[0m13:28:33.907761 [debug] [ThreadPool]: On list_contentdb: Close
+[0m13:28:33.910348 [debug] [ThreadPool]: Using postgres connection "list_contentdb"
+[0m13:28:33.910562 [debug] [ThreadPool]: On list_contentdb: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "list_contentdb"} */
+
+    select distinct nspname from pg_namespace
+  
+[0m13:28:33.910722 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m13:28:33.920524 [debug] [ThreadPool]: SQL status: SELECT 6 in 0.0 seconds
+[0m13:28:33.921239 [debug] [ThreadPool]: On list_contentdb: Close
+[0m13:28:33.922443 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_contentdb, now list_contentdb_public_staging)
+[0m13:28:33.925302 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_staging"
+[0m13:28:33.925520 [debug] [ThreadPool]: On list_contentdb_public_staging: BEGIN
+[0m13:28:33.925661 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m13:28:33.932317 [debug] [ThreadPool]: SQL status: BEGIN in 0.0 seconds
+[0m13:28:33.932701 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_staging"
+[0m13:28:33.932934 [debug] [ThreadPool]: On list_contentdb_public_staging: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "list_contentdb_public_staging"} */
+select
+      'contentdb' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'public_staging'
+    union all
+    select
+      'contentdb' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'public_staging'
+    union all
+    select
+      'contentdb' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'public_staging'
+  
+[0m13:28:33.940088 [debug] [ThreadPool]: SQL status: SELECT 1 in 0.0 seconds
+[0m13:28:33.941064 [debug] [ThreadPool]: On list_contentdb_public_staging: ROLLBACK
+[0m13:28:33.941386 [debug] [ThreadPool]: On list_contentdb_public_staging: Close
+[0m13:28:33.942528 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_contentdb_public_staging, now list_contentdb_public_marts)
+[0m13:28:33.944808 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_marts"
+[0m13:28:33.945158 [debug] [ThreadPool]: On list_contentdb_public_marts: BEGIN
+[0m13:28:33.945500 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m13:28:33.950327 [debug] [ThreadPool]: SQL status: BEGIN in 0.0 seconds
+[0m13:28:33.950763 [debug] [ThreadPool]: Using postgres connection "list_contentdb_public_marts"
+[0m13:28:33.951172 [debug] [ThreadPool]: On list_contentdb_public_marts: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "list_contentdb_public_marts"} */
+select
+      'contentdb' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'public_marts'
+    union all
+    select
+      'contentdb' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'public_marts'
+    union all
+    select
+      'contentdb' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'public_marts'
+  
+[0m13:28:33.954174 [debug] [ThreadPool]: SQL status: SELECT 1 in 0.0 seconds
+[0m13:28:33.955202 [debug] [ThreadPool]: On list_contentdb_public_marts: ROLLBACK
+[0m13:28:33.955578 [debug] [ThreadPool]: On list_contentdb_public_marts: Close
+[0m13:28:33.960026 [debug] [MainThread]: Using postgres connection "master"
+[0m13:28:33.960313 [debug] [MainThread]: On master: BEGIN
+[0m13:28:33.960468 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m13:28:33.964815 [debug] [MainThread]: SQL status: BEGIN in 0.0 seconds
+[0m13:28:33.965065 [debug] [MainThread]: Using postgres connection "master"
+[0m13:28:33.965353 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "connection_name": "master"} */
+with relation as (
+        select
+            pg_rewrite.ev_class as class,
+            pg_rewrite.oid as id
+        from pg_rewrite
+    ),
+    class as (
+        select
+            oid as id,
+            relname as name,
+            relnamespace as schema,
+            relkind as kind
+        from pg_class
+    ),
+    dependency as (
+        select distinct
+            pg_depend.objid as id,
+            pg_depend.refobjid as ref
+        from pg_depend
+    ),
+    schema as (
+        select
+            pg_namespace.oid as id,
+            pg_namespace.nspname as name
+        from pg_namespace
+        where nspname != 'information_schema' and nspname not like 'pg\_%'
+    ),
+    referenced as (
+        select
+            relation.id AS id,
+            referenced_class.name ,
+            referenced_class.schema ,
+            referenced_class.kind
+        from relation
+        join class as referenced_class on relation.class=referenced_class.id
+        where referenced_class.kind in ('r', 'v', 'm')
+    ),
+    relationships as (
+        select
+            referenced.name as referenced_name,
+            referenced.schema as referenced_schema_id,
+            dependent_class.name as dependent_name,
+            dependent_class.schema as dependent_schema_id,
+            referenced.kind as kind
+        from referenced
+        join dependency on referenced.id=dependency.id
+        join class as dependent_class on dependency.ref=dependent_class.id
+        where
+            (referenced.name != dependent_class.name or
+             referenced.schema != dependent_class.schema)
+    )
+
+    select
+        referenced_schema.name as referenced_schema,
+        relationships.referenced_name as referenced_name,
+        dependent_schema.name as dependent_schema,
+        relationships.dependent_name as dependent_name
+    from relationships
+    join schema as dependent_schema on relationships.dependent_schema_id=dependent_schema.id
+    join schema as referenced_schema on relationships.referenced_schema_id=referenced_schema.id
+    group by referenced_schema, referenced_name, dependent_schema, dependent_name
+    order by referenced_schema, referenced_name, dependent_schema, dependent_name;
+[0m13:28:33.980885 [debug] [MainThread]: SQL status: SELECT 1 in 0.0 seconds
+[0m13:28:33.981744 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '4e48f5d8-798f-4b85-988d-0f486f8e5150', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9dbd4ed0>]}
+[0m13:28:33.982075 [debug] [MainThread]: On master: ROLLBACK
+[0m13:28:33.982394 [debug] [MainThread]: Using postgres connection "master"
+[0m13:28:33.982581 [debug] [MainThread]: On master: BEGIN
+[0m13:28:33.982913 [debug] [MainThread]: SQL status: BEGIN in 0.0 seconds
+[0m13:28:33.983216 [debug] [MainThread]: On master: COMMIT
+[0m13:28:33.983460 [debug] [MainThread]: Using postgres connection "master"
+[0m13:28:33.983627 [debug] [MainThread]: On master: COMMIT
+[0m13:28:33.983857 [debug] [MainThread]: SQL status: COMMIT in 0.0 seconds
+[0m13:28:33.984013 [debug] [MainThread]: On master: Close
+[0m13:28:33.984459 [info ] [MainThread]: Concurrency: 1 threads (target='dev')
+[0m13:28:33.985290 [info ] [MainThread]: 
+[0m13:28:33.997281 [debug] [Thread-1 (]: Began running node model.content_trend_advisor.stg_youtube
+[0m13:28:33.997831 [info ] [Thread-1 (]: 1 of 2 START sql view model public_staging.stg_youtube ......................... [RUN]
+[0m13:28:33.998456 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_contentdb_public_marts, now model.content_trend_advisor.stg_youtube)
+[0m13:28:33.998656 [debug] [Thread-1 (]: Began compiling node model.content_trend_advisor.stg_youtube
+[0m13:28:34.010195 [debug] [Thread-1 (]: Writing injected SQL for node "model.content_trend_advisor.stg_youtube"
+[0m13:28:34.017048 [debug] [Thread-1 (]: Timing info for model.content_trend_advisor.stg_youtube (compile): 13:28:33.998827 => 13:28:34.014691
+[0m13:28:34.017926 [debug] [Thread-1 (]: Began executing node model.content_trend_advisor.stg_youtube
+[0m13:28:34.072969 [debug] [Thread-1 (]: Writing runtime sql for node "model.content_trend_advisor.stg_youtube"
+[0m13:28:34.075710 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.stg_youtube"
+[0m13:28:34.076026 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: BEGIN
+[0m13:28:34.077910 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m13:28:34.084525 [debug] [Thread-1 (]: SQL status: BEGIN in 0.0 seconds
+[0m13:28:34.086047 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.stg_youtube"
+[0m13:28:34.086703 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.stg_youtube"} */
+
+  create view "contentdb"."public_staging"."stg_youtube__dbt_tmp"
+    
+    
+  as (
+    WITH src AS (
+  SELECT 
+    external_id AS video_id,
+    fetched_at,
+    payload
+  FROM "contentdb"."public"."raw_content"
+  WHERE source = 'youtube'
+), 
+
+clean AS (
+  SELECT
+    video_id,
+
+    /* Titles and descriptions: prefer localized when present */
+    COALESCE(payload->'snippet'->'localized'->>'title', payload->'snippet'->>'title') AS title,
+    LEFT(COALESCE(payload->'snippet'->'localized'->>'description', payload->'snippet'->>'description', ''), 1000) AS description,
+
+    /* Channel and timing info */
+    payload->'snippet'->>'channelId' AS channel_id,
+    payload->'snippet'->>'channelTitle' AS channel_title,
+    (payload->'snippet'->>'publishedAt')::timestamptz AS published_at,
+
+    /* Category and language (note: YouTube uses camelCase keys) */
+    payload->'snippet'->>'categoryId' AS category_id,
+    payload->'snippet'->>'defaultAudioLanguage' AS default_audio_language,
+    CASE
+      WHEN payload->'snippet'->>'defaultAudioLanguage' IS NULL THEN true
+      WHEN lower(payload->'snippet'->>'defaultAudioLanguage') = 'zxx' THEN true
+      WHEN lower(payload->'snippet'->>'defaultAudioLanguage') LIKE 'en%' THEN true
+      ELSE false
+    END AS audio_language_is_english,
+
+    /* Core metrics from statistics (->> needs quoted keys) */
+    COALESCE((payload->'statistics'->>'viewCount')::bigint, 0) AS view_count,
+    COALESCE((payload->'statistics'->>'likeCount')::bigint, 0) AS like_count,
+    COALESCE((payload->'statistics'->>'commentCount')::bigint, 0) AS comment_count,
+
+    /* Duration as seconds from ISO8601 duration */
+    CASE
+      WHEN payload->'contentDetails'->>'duration' IS NOT NULL
+        THEN 
+  (
+    COALESCE( (regexp_match((payload->'contentDetails'->>'duration'), 'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?'))[1], '0')::int * 3600
+  + COALESCE( (regexp_match((payload->'contentDetails'->>'duration'), 'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?'))[2], '0')::int * 60
+  + COALESCE( (regexp_match((payload->'contentDetails'->>'duration'), 'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?'))[3], '0')::int
+  )
+
+      ELSE NULL
+    END AS duration_seconds,
+
+    /* Tags, topics, categories */
+    
+  COALESCE(
+    ARRAY(
+      SELECT jsonb_array_elements_text(payload->'snippet'->'tags')
+    ),
+    ARRAY[]::text[]
+  )
+ AS tags,
+
+    /* _filter_metadata.detected_topics is an array; use -> (JSONB) not ->> (text) */
+    COALESCE(
+      ARRAY(SELECT jsonb_array_elements_text(payload->'_filter_metadata'->'detected_topics')),
+      ARRAY[]::text[]
+    ) AS detected_topics,
+
+    payload->'_filter_metadata'->>'detected_language' AS detected_language,
+    payload->'_filter_metadata'->>'category_name' AS category_name,
+
+    /* topicDetails.topicCategories is an array of URLs */
+    COALESCE(
+      ARRAY(SELECT jsonb_array_elements_text(payload->'topicDetails'->'topicCategories')),
+      ARRAY[]::text[]
+    ) AS topic_categories,
+
+    /* Derived metrics */
+    
+  CASE
+    WHEN (COALESCE((payload->'statistics'->>'viewCount')::bigint, 0))::numeric > 0
+      THEN ((COALESCE(COALESCE((payload->'statistics'->>'likeCount')::bigint, 0), 0))::numeric + (COALESCE(COALESCE((payload->'statistics'->>'commentCount')::bigint, 0), 0))::numeric) / (COALESCE((payload->'statistics'->>'viewCount')::bigint, 0))::numeric
+    ELSE 0::numeric
+  END
+ AS engagement_ratio_raw,
+    /* Keep a percentage for readability, but derived from the raw ratio */
+    ROUND((
+      
+  CASE
+    WHEN (COALESCE((payload->'statistics'->>'viewCount')::bigint, 0))::numeric > 0
+      THEN ((COALESCE(COALESCE((payload->'statistics'->>'likeCount')::bigint, 0), 0))::numeric + (COALESCE(COALESCE((payload->'statistics'->>'commentCount')::bigint, 0), 0))::numeric) / (COALESCE((payload->'statistics'->>'viewCount')::bigint, 0))::numeric
+    ELSE 0::numeric
+  END
+ * 100::numeric
+    ), 2) AS engagement_rate,
+    DATE_TRUNC('day', fetched_at) AS fetched_date,
+    EXTRACT(DAY FROM (NOW() - (payload->'snippet'->>'publishedAt')::timestamptz)) AS days_since_published,
+
+    /* Channel enrichment from ETL (if present) */
+    (payload->'_channel_metadata'->>'subscriberCount')::bigint               AS channel_subscriber_count,
+    (payload->'_channel_metadata'->>'hiddenSubscriberCount')::boolean         AS channel_hidden_subscribers,
+    (payload->'_channel_metadata'->>'videoCount')::bigint                     AS channel_video_count,
+
+    /* Trending-source flag (if captured during ingestion) */
+    COALESCE((payload->'_source_flags'->>'youtube_trending')::boolean, false) AS yt_trending_seen
+
+  FROM src
+)
+
+SELECT * FROM clean
+  );
+[0m13:28:34.129193 [debug] [Thread-1 (]: SQL status: CREATE VIEW in 0.0 seconds
+[0m13:28:34.132633 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.stg_youtube"
+[0m13:28:34.132840 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.stg_youtube"} */
+alter table "contentdb"."public_staging"."stg_youtube" rename to "stg_youtube__dbt_backup"
+[0m13:28:34.134456 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.0 seconds
+[0m13:28:34.136409 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.stg_youtube"
+[0m13:28:34.136581 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.stg_youtube"} */
+alter table "contentdb"."public_staging"."stg_youtube__dbt_tmp" rename to "stg_youtube"
+[0m13:28:34.137318 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.0 seconds
+[0m13:28:34.146817 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: COMMIT
+[0m13:28:34.147152 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.stg_youtube"
+[0m13:28:34.147306 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: COMMIT
+[0m13:28:34.148672 [debug] [Thread-1 (]: SQL status: COMMIT in 0.0 seconds
+[0m13:28:34.151217 [debug] [Thread-1 (]: Applying DROP to: "contentdb"."public_staging"."stg_youtube__dbt_backup"
+[0m13:28:34.153211 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.stg_youtube"
+[0m13:28:34.153384 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.stg_youtube"} */
+drop view if exists "contentdb"."public_staging"."stg_youtube__dbt_backup" cascade
+[0m13:28:34.157416 [debug] [Thread-1 (]: SQL status: DROP VIEW in 0.0 seconds
+[0m13:28:34.158144 [debug] [Thread-1 (]: Timing info for model.content_trend_advisor.stg_youtube (execute): 13:28:34.018440 => 13:28:34.158059
+[0m13:28:34.158330 [debug] [Thread-1 (]: On model.content_trend_advisor.stg_youtube: Close
+[0m13:28:34.158793 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '4e48f5d8-798f-4b85-988d-0f486f8e5150', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9dc8da90>]}
+[0m13:28:34.159218 [info ] [Thread-1 (]: 1 of 2 OK created sql view model public_staging.stg_youtube .................... [[32mCREATE VIEW[0m in 0.16s]
+[0m13:28:34.159714 [debug] [Thread-1 (]: Finished running node model.content_trend_advisor.stg_youtube
+[0m13:28:34.160458 [debug] [Thread-1 (]: Began running node model.content_trend_advisor.features_content_engagement
+[0m13:28:34.160705 [info ] [Thread-1 (]: 2 of 2 START sql table model public_marts.features_content_engagement .......... [RUN]
+[0m13:28:34.161064 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.content_trend_advisor.stg_youtube, now model.content_trend_advisor.features_content_engagement)
+[0m13:28:34.161239 [debug] [Thread-1 (]: Began compiling node model.content_trend_advisor.features_content_engagement
+[0m13:28:34.162811 [debug] [Thread-1 (]: Writing injected SQL for node "model.content_trend_advisor.features_content_engagement"
+[0m13:28:34.164011 [debug] [Thread-1 (]: Timing info for model.content_trend_advisor.features_content_engagement (compile): 13:28:34.161367 => 13:28:34.163922
+[0m13:28:34.164168 [debug] [Thread-1 (]: Began executing node model.content_trend_advisor.features_content_engagement
+[0m13:28:34.189753 [debug] [Thread-1 (]: Writing runtime sql for node "model.content_trend_advisor.features_content_engagement"
+[0m13:28:34.190539 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m13:28:34.190726 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: BEGIN
+[0m13:28:34.190875 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m13:28:34.197813 [debug] [Thread-1 (]: SQL status: BEGIN in 0.0 seconds
+[0m13:28:34.198235 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m13:28:34.198592 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.features_content_engagement"} */
+
+  
+    
+
+  create  table "contentdb"."public_marts"."features_content_engagement__dbt_tmp"
+  
+  
+    as
+  
+  (
+    with yt as (
+    select * from "contentdb"."public_staging"."stg_youtube"
+),
+
+enriched AS (
+  SELECT
+    video_id,
+    title,
+    description,
+    channel_id,
+    channel_title,
+    published_at,
+    category_id,
+    default_audio_language,
+    tags,
+    topic_categories,
+    detected_topics,
+    detected_language,
+    category_name,
+    view_count,
+    like_count,
+    comment_count,
+    engagement_rate,
+    engagement_ratio_raw,
+    duration_seconds,
+    days_since_published,
+    channel_subscriber_count,
+    yt_trending_seen,
+
+    /* Simple feature engineering */
+    char_length(title)                                        AS title_len,
+    CASE WHEN title ~ '\\d' THEN true ELSE false END           AS title_has_numbers,
+    EXTRACT(HOUR FROM published_at)                           AS hour_of_day,
+    EXTRACT(DOW FROM published_at)                            AS day_of_week,
+
+    CASE
+      WHEN duration_seconds IS NULL THEN 'unknown'
+      WHEN duration_seconds < 60 THEN 'short'
+      WHEN duration_seconds < 300 THEN 'medium'
+      WHEN duration_seconds < 900 THEN 'long'
+      ELSE 'very_long'
+    END                                                       AS content_length_bucket,
+
+    CASE
+      WHEN engagement_ratio_raw >= 0.10 THEN 'high'
+      WHEN engagement_ratio_raw >= 0.05 THEN 'medium'
+      WHEN engagement_ratio_raw >= 0.01 THEN 'low'
+      ELSE 'very_low'
+    END                                                       AS engagement_tier,
+
+    /* Age and velocity */
+    GREATEST(EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0, 0.0)  AS age_hours,
+    GREATEST(EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0, 6.0)  AS age_hours_capped,
+    CASE
+      WHEN EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0 < 24  THEN '0_24h'
+      WHEN EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0 < 72  THEN '24_72h'
+      WHEN EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0 < 168 THEN '3_7d'
+      ELSE '7d_plus'
+    END                                                       AS age_bucket,
+    (view_count::numeric / NULLIF(GREATEST(EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0, 6.0), 0))
+                                                              AS views_per_hour,
+    CASE WHEN channel_subscriber_count IS NOT NULL AND channel_subscriber_count > 0
+         THEN (view_count::numeric / NULLIF(GREATEST(EXTRACT(EPOCH FROM (NOW() - published_at)) / 3600.0, 6.0), 0))
+              / (channel_subscriber_count / 1000.0)
+         ELSE NULL
+    END                                                       AS views_per_hour_per_1k_subs
+
+  FROM yt
+),
+
+scored AS (
+  SELECT
+    e.*,
+    percent_rank() OVER (PARTITION BY e.category_id, e.age_bucket ORDER BY e.views_per_hour) AS vph_pct_in_category,
+    percent_rank() OVER (PARTITION BY e.channel_id,  e.age_bucket ORDER BY e.views_per_hour) AS vph_pct_in_channel,
+
+    CASE
+      WHEN (
+        (percent_rank() OVER (PARTITION BY e.category_id, e.age_bucket ORDER BY e.views_per_hour) >= 0.90
+         OR percent_rank() OVER (PARTITION BY e.channel_id,  e.age_bucket ORDER BY e.views_per_hour) >= 0.95)
+        AND e.engagement_ratio_raw >= 0.01
+        AND e.views_per_hour >= CASE e.age_bucket
+                                  WHEN '0_24h'  THEN 200
+                                  WHEN '24_72h' THEN 100
+                                  WHEN '3_7d'   THEN 50
+                                  ELSE 25
+                                END
+        AND e.view_count >= 3000
+      ) THEN true ELSE false
+    END                                                       AS is_trending,
+
+    CASE
+      WHEN yt_trending_seen THEN 'yt_most_popular'
+      WHEN engagement_ratio_raw < 0.01 THEN 'low_engagement'
+      WHEN view_count < 3000 THEN 'low_total_views'
+      ELSE 'velocity_percentile'
+    END                                                       AS trending_reason
+  FROM enriched e
+)
+
+SELECT * FROM scored
+  );
+  
+[0m13:28:34.905560 [debug] [Thread-1 (]: SQL status: SELECT 4208 in 1.0 seconds
+[0m13:28:34.915792 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m13:28:34.916118 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.features_content_engagement"} */
+alter table "contentdb"."public_marts"."features_content_engagement" rename to "features_content_engagement__dbt_backup"
+[0m13:28:34.916993 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.0 seconds
+[0m13:28:34.918339 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m13:28:34.918492 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.features_content_engagement"} */
+alter table "contentdb"."public_marts"."features_content_engagement__dbt_tmp" rename to "features_content_engagement"
+[0m13:28:34.918983 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.0 seconds
+[0m13:28:34.922135 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: COMMIT
+[0m13:28:34.922338 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m13:28:34.922485 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: COMMIT
+[0m13:28:34.930148 [debug] [Thread-1 (]: SQL status: COMMIT in 0.0 seconds
+[0m13:28:34.934606 [debug] [Thread-1 (]: Applying DROP to: "contentdb"."public_marts"."features_content_engagement__dbt_backup"
+[0m13:28:34.936361 [debug] [Thread-1 (]: Using postgres connection "model.content_trend_advisor.features_content_engagement"
+[0m13:28:34.936531 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: /* {"app": "dbt", "dbt_version": "1.7.8", "profile_name": "content_trend_advisor", "target_name": "dev", "node_id": "model.content_trend_advisor.features_content_engagement"} */
+drop table if exists "contentdb"."public_marts"."features_content_engagement__dbt_backup" cascade
+[0m13:28:34.963783 [debug] [Thread-1 (]: SQL status: DROP TABLE in 0.0 seconds
+[0m13:28:34.967108 [debug] [Thread-1 (]: Timing info for model.content_trend_advisor.features_content_engagement (execute): 13:28:34.164275 => 13:28:34.966947
+[0m13:28:34.967393 [debug] [Thread-1 (]: On model.content_trend_advisor.features_content_engagement: Close
+[0m13:28:34.968543 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '4e48f5d8-798f-4b85-988d-0f486f8e5150', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9d99bbd0>]}
+[0m13:28:34.969972 [info ] [Thread-1 (]: 2 of 2 OK created sql table model public_marts.features_content_engagement ..... [[32mSELECT 4208[0m in 0.81s]
+[0m13:28:34.970552 [debug] [Thread-1 (]: Finished running node model.content_trend_advisor.features_content_engagement
+[0m13:28:34.972864 [debug] [MainThread]: Using postgres connection "master"
+[0m13:28:34.973050 [debug] [MainThread]: On master: BEGIN
+[0m13:28:34.973177 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m13:28:34.987962 [debug] [MainThread]: SQL status: BEGIN in 0.0 seconds
+[0m13:28:34.988510 [debug] [MainThread]: On master: COMMIT
+[0m13:28:34.988743 [debug] [MainThread]: Using postgres connection "master"
+[0m13:28:34.988937 [debug] [MainThread]: On master: COMMIT
+[0m13:28:34.989176 [debug] [MainThread]: SQL status: COMMIT in 0.0 seconds
+[0m13:28:34.989400 [debug] [MainThread]: On master: Close
+[0m13:28:34.989961 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m13:28:34.990329 [debug] [MainThread]: Connection 'model.content_trend_advisor.features_content_engagement' was properly closed.
+[0m13:28:34.991687 [info ] [MainThread]: 
+[0m13:28:34.991973 [info ] [MainThread]: Finished running 1 view model, 1 table model in 0 hours 0 minutes and 1.14 seconds (1.14s).
+[0m13:28:34.992526 [debug] [MainThread]: Command end result
+[0m13:28:35.018145 [info ] [MainThread]: 
+[0m13:28:35.018819 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m13:28:35.020471 [info ] [MainThread]: 
+[0m13:28:35.021144 [info ] [MainThread]: Done. PASS=2 WARN=0 ERROR=0 SKIP=0 TOTAL=2
+[0m13:28:35.025384 [debug] [MainThread]: Resource report: {"command_name": "run", "command_success": true, "command_wall_clock_time": 1.6395724, "process_user_time": 1.399706, "process_kernel_time": 1.823129, "process_mem_max_rss": "130172", "process_out_blocks": "3835", "process_in_blocks": "0"}
+[0m13:28:35.026156 [debug] [MainThread]: Command `dbt run` succeeded at 13:28:35.026056 after 1.64 seconds
+[0m13:28:35.026900 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9ea8f590>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffffa4125750>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0xffff9ee30310>]}
+[0m13:28:35.027188 [debug] [MainThread]: Flushing usage events

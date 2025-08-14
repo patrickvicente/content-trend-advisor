@@ -28,6 +28,12 @@ clean AS (
     /* Category and language (note: YouTube uses camelCase keys) */
     payload->'snippet'->>'categoryId' AS category_id,
     payload->'snippet'->>'defaultAudioLanguage' AS default_audio_language,
+    CASE
+      WHEN payload->'snippet'->>'defaultAudioLanguage' IS NULL THEN true
+      WHEN lower(payload->'snippet'->>'defaultAudioLanguage') = 'zxx' THEN true
+      WHEN lower(payload->'snippet'->>'defaultAudioLanguage') LIKE 'en%' THEN true
+      ELSE false
+    END AS audio_language_is_english,
 
     /* Core metrics from statistics (->> needs quoted keys) */
     COALESCE((payload->'statistics'->>'viewCount')::bigint, 0) AS view_count,
@@ -91,7 +97,15 @@ clean AS (
  * 100::numeric
     ), 2) AS engagement_rate,
     DATE_TRUNC('day', fetched_at) AS fetched_date,
-    EXTRACT(DAY FROM (NOW() - (payload->'snippet'->>'publishedAt')::timestamptz)) AS days_since_published
+    EXTRACT(DAY FROM (NOW() - (payload->'snippet'->>'publishedAt')::timestamptz)) AS days_since_published,
+
+    /* Channel enrichment from ETL (if present) */
+    (payload->'_channel_metadata'->>'subscriberCount')::bigint               AS channel_subscriber_count,
+    (payload->'_channel_metadata'->>'hiddenSubscriberCount')::boolean         AS channel_hidden_subscribers,
+    (payload->'_channel_metadata'->>'videoCount')::bigint                     AS channel_video_count,
+
+    /* Trending-source flag (if captured during ingestion) */
+    COALESCE((payload->'_source_flags'->>'youtube_trending')::boolean, false) AS yt_trending_seen
 
   FROM src
 )
