@@ -67,5 +67,38 @@ required_topics:
   - "Software Development"
   - "Cloud Computing"
   - "Productivity"
+
+# Categories that are relevant to tech/productivity niche
+allowed_categories:
+  - "Science & Technology"
+  - "Education" 
+  - "Howto & Style"
+  - "Gaming"  # Tech gaming content
+  - "News & Politics"  # Tech news
+  - "People & Blogs"  # Tech vloggers
+  - "Entertainment"
+  - "Film & Animation"
+
+# Categories to generally avoid for tech focus
+denied_categories:
+  - "Music"
+  - "Sports"
+  - "Comedy"
+  - "Pets & Animals"
+  - "Travel & Events"
+  - "Autos & Vehicles"
+  - "Movies"
+  - "Anime/Animation"
+  - "Action/Adventure"
+  - "Classics"
+  - "Documentary"
+  - "Drama"
+  - "Family"
+  - "Foreign"
+  - "Horror"
+  - "Sci-Fi/Fantasy"
+  - "Thriller"
+  - "Shows"
+  - "Trailers"
   
   

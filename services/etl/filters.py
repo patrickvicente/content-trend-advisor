@@ -275,6 +275,12 @@ def filter_content(title: str,
     config = _load_config("topics")
     required_topics = config.get("required_topics", [])
     
+    # Load category configuration from topics.yml
+    if allowed_categories is None:
+        allowed_categories = config.get("allowed_categories", [])
+    if denied_categories is None:
+        denied_categories = config.get("denied_categories", [])
+    
     # Detect language
     language = detect_language(title + " " + (description or ""))
     language_ok = is_language_allowed(language, allowed_languages)
@@ -283,8 +289,8 @@ def filter_content(title: str,
     category_name = map_category_id_to_name(category_id) if category_id else "Unknown"
     category_ok = is_category_allowed(
         category_name, 
-        allowed_categories or [], 
-        denied_categories or []
+        allowed_categories, 
+        denied_categories
     )
     
     # Detect topics

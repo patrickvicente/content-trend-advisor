@@ -42,6 +42,25 @@ clean AS (
       ELSE NULL
     END AS duration_seconds,
 
+    /* Enhanced Shorts Detection: Multiple indicators for better accuracy */
+    CASE
+      /* Primary: Hashtag detection - most reliable indicator */
+      WHEN {{ youtube_extract_tags('payload') }} && ARRAY['shorts', 'shortsfeed', 'youtubeshorts', 'shortsvideo'] THEN true
+      
+      /* Secondary: Title pattern analysis */
+      WHEN COALESCE(payload->'snippet'->'localized'->>'title', payload->'snippet'->>'title') ILIKE '%#shorts%' THEN true
+      WHEN COALESCE(payload->'snippet'->'localized'->>'title', payload->'snippet'->>'title') ILIKE '%#shortsfeed%' THEN true
+      WHEN COALESCE(payload->'snippet'->'localized'->>'title', payload->'snippet'->>'title') ILIKE '%| shorts%' THEN true
+      WHEN COALESCE(payload->'snippet'->'localized'->>'title', payload->'snippet'->>'title') ILIKE '%shorts%' 
+           AND COALESCE(payload->'snippet'->'localized'->>'title', payload->'snippet'->>'title') ~ '^.{1,50}$' THEN true
+      
+      /* Tertiary: Duration fallback (less reliable but still useful) */
+      WHEN payload->'contentDetails'->>'duration' IS NOT NULL
+        AND {{ iso8601_duration_to_seconds("(payload->'contentDetails'->>'duration')") }} < 60 THEN true
+      
+      ELSE false
+    END AS is_short,
+
     /* Tags, topics, categories */
     {{ youtube_extract_tags('payload') }} AS tags,
 

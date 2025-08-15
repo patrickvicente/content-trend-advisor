@@ -23,15 +23,19 @@ enriched AS (
     engagement_rate,
     engagement_ratio_raw,
     duration_seconds,
+    is_short,  -- Enhanced detection using multiple indicators
     days_since_published,
     channel_subscriber_count,
     yt_trending_seen,
 
     /* Simple feature engineering */
     char_length(title)                                        AS title_len,
-    CASE WHEN title ~ '\\d' THEN true ELSE false END           AS title_has_numbers,
+    CASE WHEN title ~ '\d' THEN true ELSE false END           AS title_has_numbers,
     EXTRACT(HOUR FROM published_at)                           AS hour_of_day,
     EXTRACT(DOW FROM published_at)                            AS day_of_week,
+
+    /* Shorts-specific features */
+    CASE WHEN is_short THEN 'shorts' ELSE 'regular' END AS content_type,
 
     CASE
       WHEN duration_seconds IS NULL THEN 'unknown'
@@ -79,20 +83,32 @@ scored AS (
         (percent_rank() OVER (PARTITION BY e.category_id, e.age_bucket ORDER BY e.views_per_hour) >= 0.90
          OR percent_rank() OVER (PARTITION BY e.channel_id,  e.age_bucket ORDER BY e.views_per_hour) >= 0.95)
         AND e.engagement_ratio_raw >= 0.01
-        AND e.views_per_hour >= CASE e.age_bucket
-                                  WHEN '0_24h'  THEN 200
-                                  WHEN '24_72h' THEN 100
-                                  WHEN '3_7d'   THEN 50
-                                  ELSE 25
+        AND e.views_per_hour >= CASE 
+                                  WHEN e.is_short THEN  -- Shorts have different velocity patterns
+                                    CASE e.age_bucket
+                                      WHEN '0_24h'  THEN 1000  -- Shorts can go viral faster
+                                      WHEN '24_72h' THEN 500
+                                      WHEN '3_7d'   THEN 200
+                                      ELSE 100
+                                    END
+                                  ELSE  -- Regular videos
+                                    CASE e.age_bucket
+                                      WHEN '0_24h'  THEN 200
+                                      WHEN '24_72h' THEN 100
+                                      WHEN '3_7d'   THEN 50
+                                      ELSE 25
+                                    END
                                 END
-        AND e.view_count >= 3000
+        AND e.view_count >= CASE WHEN e.is_short THEN 1000 ELSE 3000 END  -- Lower threshold for shorts
       ) THEN true ELSE false
     END                                                       AS is_trending,
 
     CASE
       WHEN yt_trending_seen THEN 'yt_most_popular'
-      WHEN engagement_ratio_raw < 0.01 THEN 'low_engagement'
-      WHEN view_count < 3000 THEN 'low_total_views'
+      WHEN is_short AND engagement_ratio_raw < 0.005 THEN 'shorts_low_engagement'  -- Shorts need higher engagement
+      WHEN NOT is_short AND engagement_ratio_raw < 0.01 THEN 'regular_low_engagement'
+      WHEN is_short AND view_count < 1000 THEN 'shorts_low_views'  -- Lower threshold for shorts
+      WHEN NOT is_short AND view_count < 3000 THEN 'regular_low_views'
       ELSE 'velocity_percentile'
     END                                                       AS trending_reason
   FROM enriched e
