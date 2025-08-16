@@ -34,6 +34,18 @@ enriched AS (
     EXTRACT(HOUR FROM published_at)                           AS hour_of_day,
     EXTRACT(DOW FROM published_at)                            AS day_of_week,
 
+    -- More sophisticated title analysis:
+    CASE WHEN title ~ '[?!]' THEN true ELSE false END AS has_question_mark,
+    CASE WHEN title ~ '\\b(you|your|we|our)\\b' THEN true ELSE false END AS has_personal_pronouns,
+    CASE WHEN title ~* '\\b(best|top|ultimate|amazing|incredible|unbelievable|shocking|crazy|insane|epic|must-see)\\b' 
+     THEN true ELSE false END AS has_emotional_words,
+    CASE WHEN title ~* '\\b(no|never|don''t|not|nothing|worst|avoid|stop|fail|mistake|scam)\\b' 
+     THEN true ELSE false END AS has_negative_words,
+    CASE WHEN title ~* '\\b(now|today|urgent|before it''s gone|limited|hurry|soon|instant)\\b'
+     THEN true ELSE false END AS has_urgency_words,
+    CASE WHEN title ~* '\\b(secret|revealed|you won''t believe|the truth about)\\b'
+     THEN true ELSE false END AS has_clickbait_phrases,
+
     /* Shorts-specific features */
     CASE WHEN is_short THEN 'shorts' ELSE 'regular' END AS content_type,
 
